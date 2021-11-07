@@ -19,33 +19,31 @@ Operations an user can do:
 * Change password.
 * Play games other users have published
 * Create a new game, and edit it.
-* Publish the came user user has created.
+* Publish the game she has created.
 * Read message board.
-* Write messages to the messge board.
+* Write messages to the message board.
 
 
 ### Administrator
 Administrator is a normal user, who has been granted administrative privileges in addition to normal user right. Administrator can manage user accounts and all the games in the database.
 
 Operations an administrator can do:
-* Delete an user
-  * All games user is an owner will be deleted
-  * All user's game states will be deleted
-* Prevent user to log in (freeze account)
-* Change user's password
-* Add administrator rights to an user
-* Remove administrator from an user
-* Delete any game
-* Edit all games
-* Change owner of a game
-* Delete messages from the message board
-
-Administrators can edit and delete all games, both published and unpublished.
+* Delete an user.
+  * All games user is an owner will be deleted.
+  * All user's game states will be deleted.
+* Prevent user to log in. (freeze an account)
+* Change user's password.
+* Add administrator rights to an user.
+* Remove administrator from an user.
+* Delete any game, published or not.
+* Edit all games.
+* Change the owner of a game.
+* Delete messages from the message board.
 
 ## Games
-Games are text based, where users can move between rooms, and do simple things. The idea is to be more like "choose your adventure" type book, than to have complex game logic.
+Games are classical text adventures, where users can move between rooms, and do simple things. The idea is to be more like "choose your own adventure" type book, than to have complex game logic.
 
-To get an idea, here is an example session with text user interface
+To get an idea, here is an example session with a textual user interface
 ```
 * Outside the dungeon *
 
@@ -98,7 +96,8 @@ To perevent cheating in the games:
 * Most of the game logic will be implemented inside the database itself.
 
 ## Future options
-* Guest users could be allowed playing games in some limited way.
+* Guest users could be allowed playing games in some limited way
+  * Transferring encrypted game state in HTTP GET requests could be possible
 * User could give ratings to the games. (star system)
 * Commenting board for each published game.
 * Private messages between users.
