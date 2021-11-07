@@ -59,8 +59,9 @@ You choose to go North!
 ******************************************************
 * Dungeon room                                       *
 
-You are in a big room. You can see corridors goin North, East and West.
-From the floor you find a key and put it in your pocket.
+You are in a big room. You can see corridors going
+North, East and West. From the floor you find a key
+and put it in your pocket.
 
 Do you want to:
   Go North?
