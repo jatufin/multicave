@@ -45,34 +45,40 @@ Games are classical text adventures, where users can move between rooms, and do 
 
 To get an idea, here is an example session with a textual user interface
 ```
-* Outside the dungeon *
+******************************************************
+* Outside the dungeon                                *
 
-You are on the foothills of a mountain. Sun is shining and birds singing. On the rock face to the North you see dark cave opening.
+You are on the foothills of a mountain. Sun is
+shining and birds are singing. On the rock face to
+the North you see dark cave opening.
 
-You can:
-go north
+Do you want to:
+  Go North?
 
-What do you want to do? GO NORTH
-
-* Dungeon room *
-
-You are in a big room. You can see corridors goin North, East and West.
-On the floor is a key.
-
-You can:
-go North, East or West
-take the key
-
-What do you want to do? TAKE THE KEY
-You took the key.
-
-* Dungeon room *
+You choose to go North!
+******************************************************
+* Dungeon room                                       *
 
 You are in a big room. You can see corridors goin North, East and West.
+From the floor you find a key and put it in your pocket.
 
-You can:
-go North, East or West
-What do you want to do?
+Do you want to:
+  Go North?
+  Go East?
+  Go West?
+
+You choose to go West!
+******************************************************
+* Dungeon room                                       *
+
+You are in a big room. You can see corridors
+continuing to North and West. On eastern wall there
+is a locked door.
+
+Do you want to:
+  Go North?
+  Go West?
+  Try to open the door with the key?
 ```
 
 ## Message board
