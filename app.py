@@ -6,12 +6,18 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from os import getenv
+import re
 
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+# rest of connection code using the connection string `uri`
+app.config["SQLALCHEMY_DATABASE_URI"] = uri
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
