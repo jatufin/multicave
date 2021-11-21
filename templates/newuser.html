@@ -1,0 +1,13 @@
+{% if session.username %}
+<p>You are already logged in as {{ session.username }}</p>
+<a href="/index.html">Front page</a>
+
+{% else %}
+<h2>Create a new user account</h2>
+<form action="/createuser" method="POST">
+  <p>Username: <input type="text" name="username"></p>
+  <p>Password: <input type="password" name="password"></p>
+  <p>Confirm password: <input type="password" name="confirmpw"></p>
+  <input type="submit" value="Sign up">
+</form>
+{% endif %}

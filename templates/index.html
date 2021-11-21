@@ -1,0 +1,38 @@
+{% if session.username %}
+<p>You are logged in as {{ session.username }} ({{ session.user_id }})</p>
+<a href="/logout">Log out</a>
+
+<hr>
+<h2>
+  You can enter these games:
+</h2>
+
+Or edit your own game <a href="/edit">here</a>!
+
+<h3>Message board for the poets of you:</h3>
+{% for message in messages %}
+<p>
+  Message from {{ message.username }} at {{ message.posting_date.strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+  {{ message.body }}
+<hr>
+{% endfor %}
+
+<form action="/message" method="POST">
+  <textarea name="body" rows="4" cols="50"></textarea>
+  <input type="submit" value="Send new message">
+</form>
+
+
+
+
+{% else %}
+<form action="/login" method="POST">
+  <p>Username: <input type="text" name="username"></p>
+  <p>Password: <input type="password" name="password"></p>
+  <input type="submit" value="Login">
+</form>
+<a href="/newuser">Sign up</a>
+
+{% endif %}
+
