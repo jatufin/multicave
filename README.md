@@ -10,6 +10,10 @@ Currently only basic funktionality has been implemented:
 * No game play has yet been implemented
 * Appearance has not been fine tuned in any way
 
+##
+Deployed to Heroku:
+https://multicave.herokuapp.com/
+
 A web site, where users can create, share and play adventure games. User's can also comment and discuss on a message board.
 
 ## Different user accounts
