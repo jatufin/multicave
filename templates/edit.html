@@ -2,4 +2,34 @@
   So, you have a story to tell, {{ session.username }}, i've been told...
 </h2>
 
+<h3>Rooms:</h3>
+{% for room in rooms:%}
+<p>
+  Tag: {{ room.tag }}<br>
+  Description:<br>
+  {{ room.description }}
+</p>
+{% endfor %}
+
+<h3>Create a new room</h3>
+<form action="/newroom" method="POST">
+  <p>Tag: <input type="text" name="tag"></p>
+  <p>Description:<br>
+    <textarea name="description" rows=6 cols=50></textarea></p>
+  <p>Choices:</p>
+  <p>
+    Choice 1 text: <input type="text" name="north_choice">
+    --> Tag of the target: <input type="text" name="north_target"></p>
+  <p>
+    Choice 2 text: <input type="text" name="south_choice">
+    --> Tag of the target: <input type="text" name="south_target"></p>
+  <p>
+    Choice 3 text: <input type="text" name="east_choice">
+    --> Tag of the target: <input type="text" name="east_target"></p>
+  <p>
+    Choice 4 text: <input type="text" name="west_choice">
+    --> Tag of the target: <input type="text" name="west_target"></p>  
+  <input type="submit" value="Add room">
+</form>
+
 <a href="/">To the front page</a>

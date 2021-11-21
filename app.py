@@ -90,10 +90,68 @@ def edit():
     ''' Edit your own adventure '''
     if not "username" in session:
         abort(401)
+
     user_id = session["user_id"]
     username = session["username"]
-    return render_template("edit.html")
 
+    sql = "SELECT * FROM dungeons WHERE user_id=:user_id"
+    result = db.session.execute(sql, {"user_id":user_id})
+    rooms = result.fetchall()
+    
+    return render_template("edit.html", rooms=rooms)
+
+@app.route("/newroom", methods=["POST"])
+def newroom():
+    if not "username" in session:
+        abort(401)
+    user_id = session["user_id"]
+    sql = '''
+    INSERT INTO dungeons (
+       tag,
+       user_id,
+       description,
+       north_choice,
+       north_target,
+       south_choice,
+       south_target,
+       east_choice,
+       east_target,
+       west_choice,
+       west_target
+    ) VALUES (
+       :tag,
+       :user_id,
+       :description,
+       :north_choice,
+       :north_target,
+       :south_choice,
+       :south_target,
+       :east_choice,
+       :east_target,
+       :west_choice,
+       :west_target
+    )
+    '''
+    values = {
+        "tag":request.form["tag"],
+        "user_id":user_id,
+        "description":request.form["description"],
+        "north_choice":request.form["north_choice"],
+        "north_target":request.form["north_target"],
+        "south_choice":request.form["south_choice"],
+        "south_target":request.form["south_target"],
+        "east_choice":request.form["east_choice"],
+        "east_target":request.form["east_target"],
+        "west_choice":request.form["west_choice"],
+        "west_target":request.form["west_target"]
+    }
+    #try:
+    db.session.execute(sql, values)
+    db.session.commit()
+    #except:
+    #    abort(409)
+    return redirect("/edit")
+    
 @app.errorhandler(401)
 def unauthorized_error(error):
     return render_template("error.html", message="401: You are not a member of the cult!")
