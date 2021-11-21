@@ -11,8 +11,7 @@ import re
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 
-
-uri = os.getenv("DATABASE_URL")  # or other relevant config var
+uri = getenv("DATABASE_URL")  # or other relevant config var
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 # rest of connection code using the connection string `uri`
