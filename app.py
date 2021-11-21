@@ -10,10 +10,8 @@ from os import getenv
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 
-# For local database
-# app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
-# For Heroku
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
