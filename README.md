@@ -1,4 +1,15 @@
 # Multi Cave - Write and share your own adventure!
+
+## The status of the project
+Currently only basic funktionality has been implemented:
+* Loginin and logout
+* Visitor can sign up and create a new account
+* A message board is shown on front page
+* Logged in user can send messages to the board
+* Dungeon edit page is available, and user can create new rooms to their dungeon
+* No game play has yet been implemented
+* Appearance has not been fine tuned in any way
+
 A web site, where users can create, share and play adventure games. User's can also comment and discuss on a message board.
 
 ## Different user accounts
