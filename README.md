@@ -1,14 +1,12 @@
 # Multi Cave - Write and share your own adventure!
 
 ## The status of the project
-Currently only basic funktionality has been implemented:
-* Loginin and logout
-* Visitor can sign up and create a new account
-* A message board is shown on front page
-* Logged in user can send messages to the board
-* Dungeon edit page is available, and user can create new rooms to their dungeon
-* No game play has yet been implemented
-* Appearance has not been fine tuned in any way
+Currently the project can not be used in the Heroku server:
+* There are issues with user administration, which perevent login
+* Refactoring took longer than aticipated
+* Added user administration and admin rights check
+* Added a table containing banned words, which cause message board to reject messages
+* The game functionality is still missing
 
 ##
 Deployed to Heroku:
