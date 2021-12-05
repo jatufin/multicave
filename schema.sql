@@ -29,6 +29,8 @@ CREATE TABLE dungeons (
        west_target TEXT       
 );
        
-
+CREATE TABLE banned_words (
+       word TEXT
+);   
        
        

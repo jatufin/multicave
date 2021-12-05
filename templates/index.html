@@ -1,5 +1,6 @@
-{% if session.username %}
+{% if session.logged_in %}
 <p>You are logged in as {{ session.username }} ({{ session.user_id }})</p>
+
 <a href="/logout">Log out</a>
 
 <hr>
