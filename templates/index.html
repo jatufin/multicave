@@ -1,7 +1,13 @@
 {% if session.logged_in %}
-<p>You are logged in as {{ session.username }} ({{ session.user_id }})</p>
+<p>You are logged in as {{ session.username }} ({{ session.user_id }})
 
+{% if session.admin %}
+You are an Administrator: <a href="/adminusers">User accounts</a>
+{% else%}
+You are normal user
+{% endif %}
 <a href="/logout">Log out</a>
+</p>
 
 <hr>
 <h2>

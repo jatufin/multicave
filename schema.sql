@@ -1,5 +1,6 @@
 CREATE TABLE users (
        id SERIAL PRIMARY KEY,
+       locked BOOLEAN DEFAULT false,       
        admin BOOLEAN DEFAULT false,
        public BOOLEAN DEFAULT false,
        username TEXT UNIQUE,
