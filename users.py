@@ -40,7 +40,7 @@ def createuser(username, password):
     set_password(username, password)
                              
 def userlist():
-    sql = "SELECT id, locked, admin, public, username FROM users"
+    sql = "SELECT id, locked, admin, public, username FROM users ORDER BY id"
     result = db.session.execute(sql)
     users = result.fetchall()
 
@@ -48,21 +48,27 @@ def userlist():
 
 def updateuser(form):
     username = form["username"]
-    password = form["password"]
-    confirmpw = form["confirmpw"]
-    admin = form["admin"]
-    locked = form["locked"]
-#    if not admin = "True" and 
 
-    sql = "UPDATE users SET admin=:admin, locked=:locked WHERE username=:username"
+    if form.get("delete_selection"):
+        return deleteuser(username)
+    
+    admin = "True" if form.get("admin_selection") else "False"
+    locked = "True" if form.get("locked_selection") else "False"
+    public = "True" if form.get("public_selection") else "False"   
+    
+    sql = "UPDATE users SET admin=:admin, locked=:locked, public=:public WHERE username=:username"
     try:
         print("Foo")
         db.session.execute(sql, {"username": username,
                                  "admin": admin,
-                                 "locked": locked})
+                                 "locked": locked,
+                                 "public": public})
         db.session.commit()
     except:
         abort(409)
+
+    password = form["password"]
+    confirmpw = form["confirmpw"]
 
     if password and password == confirmpw:
         set_password(username, password)
@@ -72,12 +78,20 @@ def set_password(username, password):
     hash_value = generate_password_hash(password)
     
     try:
-        db.session.execute(sql, {username: username, paszword: hash_value})
+        db.session.execute(sql, {"username": username, "password": hash_value})
         db.session.commit()
     except:
         abort(409)
 
-
+def deleteuser(username):
+    sql = "DELETE FROM users WHERE username=:username"
+    try:
+        db.session.execute(sql, {"username": username})
+        db.session.commit()
+    except:
+        abort(401)
+    
+    
 def logout():
     _clear_session("logged_in")
     _clear_session("username")

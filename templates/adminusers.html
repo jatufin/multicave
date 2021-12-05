@@ -4,11 +4,21 @@
 <form action="/updateuser" method="POST">
   User: {{ user.username }} ID: {{ user.id }}
   <input type="hidden" name="username" value="{{ user.username }}">
-  Admin: <input type="text" name="admin" value="{{ user.admin }}">
-  Locked: <input type="text" name="locked" value="{{ user.locked }}">
-  Password: <input type="password" name="password">
+  Admin: <input type="checkbox" name="admin_selection" value="admin" {{ "checked" if user.admin else "unchecked" }}>
+  Locked: <input type="checkbox" name="locked_selection" value="locked" {{ "checked" if user.locked else "unchecked" }}>
+  Public: <input type="checkbox" name="public_selection" value="public" {{ "checked" if user.public else "unchecked" }}>  
+  New Password: <input type="password" name="password">
   Confirm Password: <input type="password" name="confirmpw">
-  <input type="submit" value="Update">
+  Delete: <input type="checkbox" name="delete_selection" value="delete" unchecked>
+  <input type="submit" name="submit_button" value="Update">
 </form>
 <hr>
 {% endfor %}
+
+Create new user:
+<form action="/createuser" method="POST">
+  Username: <input type="text" name="username">
+  Password: <input type="password" name="password">
+  Confirm Password: <input type="password" name="confirmpw">
+  <input type="submit" name="submit_button" value="Create">
+</form>

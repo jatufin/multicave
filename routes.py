@@ -54,7 +54,10 @@ def createuser():
         abort(401)
 
     users.createuser(username, password)
-    
+
+    if _is_admin():
+        return redirect("/adminusers")
+
     return redirect("/")
 
 @app.route("/adminusers")
@@ -70,8 +73,9 @@ def updateuser():
     _abort_if_not_admin()
 
     users.updateuser(form=request.form)
-    return redirect("/adminusers")
 
+    return redirect("/adminusers")
+    
 @app.route("/edit")
 def edit():
     ''' Edit your own adventure '''
@@ -96,3 +100,6 @@ def _abort_if_not_logged_in(code):
 def _abort_if_not_admin():
     if not session["admin"]:
         abort(401)
+
+def _is_admin():
+    return session["admin"]
