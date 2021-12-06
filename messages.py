@@ -22,7 +22,7 @@ def new_message(body):
     
     sql = "INSERT INTO messages (user_id, body) VALUES (:user_id, :body)"
     try:
-        db.session.execute(sql, {"user_id":user_id, "body":body})
+        db.session.execute(sql, {"user_id": user_id, "body": body})
         db.session.commit()
     except:
         abort(401)

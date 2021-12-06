@@ -1,8 +1,7 @@
 CREATE TABLE users (
        id SERIAL PRIMARY KEY,
        locked BOOLEAN DEFAULT false,       
-       admin BOOLEAN DEFAULT false,
-       public BOOLEAN DEFAULT false,
+       adm BOOLEAN DEFAULT false,
        username TEXT UNIQUE,
        password TEXT
        );
@@ -15,23 +14,28 @@ CREATE TABLE messages (
        body TEXT
        );
 
-CREATE TABLE rooms (
-       tag TEXT,
+CREATE TABLE games (
+       id SERIAL PRIMARY KEY,
        owner_id INTEGER,
-       PRIMARY KEY (tag, owner_id),
+       published BOOL DEFAULT false,
+       title TEXT,
        description TEXT,
-       first_visit_description TEXT,
+       start_room TEXT
 );
 
-CREATE TABLE visited_rooms (
-       room_tag INTEGER,
-       owner_id INTEGER,
-       player_id INTEGER
+CREATE TABLE rooms (
+       game_id INTEGER,
+       tag TEXT,
+       PRIMARY KEY (tag, game_id),
+       title TEXT,
+       description TEXT,
+       first_visit_description TEXT,
+       next_vistis_description TEXT
 );
        
 CREATE TABLE conditions (
        id SERIAL PRIMARY KEY,
-       owner_id INTEGER,
+       game_id INTEGER,
        room_tag TEXT,
        all_visited TEXT,
        not_all_visited TEXT,
@@ -40,9 +44,15 @@ CREATE TABLE conditions (
 );
 
 CREATE TABLE condition_rooms (
-       owner_id INTEGER,
        condition_id INTEGER,
+       game_id INTEGER,
        room_tag INTEGER       
+);
+
+CREATE TABLE visited_rooms (
+       game_id INTEGER,
+       room_tag INTEGER,
+       player_id INTEGER
 );
 
 CREATE TABLE banned_words (

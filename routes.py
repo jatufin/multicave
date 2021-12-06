@@ -4,7 +4,7 @@ from flask import redirect, session, render_template, request, abort
 import users
 import messages
 import messagefilter
-import dungeon
+import gameadmin
 import errorhandlers
 
 from db import db
@@ -98,16 +98,23 @@ def edit():
     ''' Edit your own adventure '''
     _abort_if_not_logged_in(401)            
 
-    rooms = dungeon.all_rooms(session["user_id"])
+    user_id = session["user_id"]
+    games = gameadmin.get_games(user_id, create_if_not_found=True)
 
-    return render_template("editgame.html", rooms=rooms)
+    return render_template("editgame.html", game=games[0])
 
+@app.route("/updategame", methods=["POST"])
+def updategame():
+
+    return render_template("/editgame")
+
+           
 @app.route("/newroom", methods=["POST"])
 def newroom():
     _abort_if_not_logged_in(401)                
 
     dungeon.create_room(session["user_id"], form=request.form)
-    return redirect("/edit")
+    return redirect("/editgame")
 
 
 def _abort_if_not_logged_in(code):
@@ -115,8 +122,8 @@ def _abort_if_not_logged_in(code):
         abort(code)
 
 def _abort_if_not_admin():
-    if not session["admin"]:
+    if not _is_admin():
         abort(401)
 
 def _is_admin():
-    return session["admin"]
+    return "adm" in session and session["adm"]

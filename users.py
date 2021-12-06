@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 def login(username, password):
-    sql = "SELECT id, locked, password, admin, public FROM users WHERE username=:username"
+    sql = "SELECT id, locked, password, adm FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username": username})
     user = result.fetchone()
     if not user:
@@ -21,14 +21,12 @@ def login(username, password):
     session["logged_in"] = True
     session["username"] = username
     session["user_id"] = user.id
-    session["admin"] = user.admin
-    session["public"] = user.public
+    session["adm"] = user.adm
     
     return True
             
 
-def createuser(username, password):    
-                                
+def createuser(username, password):                                    
     sql = "INSERT INTO users (username) VALUES (:username)"
 
     try:
@@ -40,7 +38,7 @@ def createuser(username, password):
     set_password(username, password)
                              
 def userlist():
-    sql = "SELECT id, locked, admin, public, username FROM users ORDER BY id"
+    sql = "SELECT id, locked, adm, username FROM users ORDER BY id"
     result = db.session.execute(sql)
     users = result.fetchall()
 
@@ -52,17 +50,15 @@ def updateuser(form):
     if form.get("delete_selection"):
         return deleteuser(username)
     
-    admin = "True" if form.get("admin_selection") else "False"
+    adm = "True" if form.get("adm_selection") else "False"
     locked = "True" if form.get("locked_selection") else "False"
-    public = "True" if form.get("public_selection") else "False"   
-    
-    sql = "UPDATE users SET admin=:admin, locked=:locked, public=:public WHERE username=:username"
+
+    sql = "UPDATE users SET adm=:adm, locked=:locked WHERE username=:username"
     try:
         print("Foo")
         db.session.execute(sql, {"username": username,
-                                 "admin": admin,
-                                 "locked": locked,
-                                 "public": public})
+                                 "adm": adm,
+                                 "locked": locked})
         db.session.commit()
     except:
         abort(409)
@@ -97,8 +93,7 @@ def logout():
     _clear_session("username")
     _clear_session("locked")
     _clear_session("user_id")
-    _clear_session("admin")
-    _clear_session("public")
+    _clear_session("adm")
 
 def _clear_session(property):
     if property in session:

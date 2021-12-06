@@ -1,0 +1,9 @@
+<h2>Game editing</h2>
+
+<form action="/updategame" method="POST">
+  <p>Game title: <input type="text" name="title" value="{{ game.title }}">
+  <p>Description: <textarea name="description" rows="5" cols="50">{{ game.description }}</textarea>
+  <p>Public: <input type="checkbox" name="published_selection" value="published" {{ "checked" if game.published else "unchecked" }}>  
+  <p>The game starts in room: <input type="text" name="start_room" value="{{ game.start_room }}">
+  <input type="submit" name="submit_button" value="Update" >
+</form>
