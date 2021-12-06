@@ -5,9 +5,9 @@ from app import app
 def unauthorized_error(error):
     return render_template("error.html", message="401: You are not a member of the cult!")
 
-@app.errorhandler(405)
+@app.errorhandler(404)
 def unauthorized_error(error):
-    return render_template("error.html", message="405: Bad bad bad!")
+    return render_template("error.html", message="405: Not found")
 
 @app.errorhandler(409)
 def unauthorized_error(error):

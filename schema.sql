@@ -15,23 +15,38 @@ CREATE TABLE messages (
        body TEXT
        );
 
-CREATE TABLE dungeons (
-       id SERIAL PRIMARY KEY,
-       tag TEXT UNIQUE,
-       user_id INTEGER,
+CREATE TABLE rooms (
+       tag TEXT,
+       owner_id INTEGER,
+       PRIMARY KEY (tag, owner_id),
        description TEXT,
-       north_choice TEXT,
-       north_target TEXT,
-       south_choice TEXT,
-       south_target TEXT,
-       east_choice TEXT,
-       east_target TEXT,
-       west_choice TEXT,
-       west_target TEXT       
+       first_visit_description TEXT,
+);
+
+CREATE TABLE visited_rooms (
+       room_tag INTEGER,
+       owner_id INTEGER,
+       player_id INTEGER
 );
        
+CREATE TABLE conditions (
+       id SERIAL PRIMARY KEY,
+       owner_id INTEGER,
+       room_tag TEXT,
+       all_visited TEXT,
+       not_all_visited TEXT,
+       all_visited_choice TEXT,
+       all_visited_target TEXT
+);
+
+CREATE TABLE condition_rooms (
+       owner_id INTEGER,
+       condition_id INTEGER,
+       room_tag INTEGER       
+);
+
 CREATE TABLE banned_words (
-       word TEXT
+       word TEXT UNIQUE
 );   
        
        

@@ -1,6 +1,8 @@
 from flask import session, abort
 from db import db
 
+import messagefilter
+
 def all_messages():
     ''' Get all messages from the messages table
     '''
@@ -32,11 +34,7 @@ def is_valid_message(text):
     if not text:
         return False
 
-    sql = "SELECT word FROM banned_words;"
-    words = db.session.execute(sql)
-
-    for word in words:
-        if word.word in text:
-            return False
+    if messagefilter.contains_banned(text):
+        return False
 
     return True

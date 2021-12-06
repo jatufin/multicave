@@ -2,7 +2,9 @@
 <p>You are logged in as {{ session.username }} ({{ session.user_id }})
 
 {% if session.admin %}
-You are an Administrator: <a href="/adminusers">User accounts</a>
+  You are an Administrator:
+  <a href="/adminusers">User accounts</a>
+  <a href="/bannedwords">Message filter</a>
 {% else%}
 You are normal user
 {% endif %}

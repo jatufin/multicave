@@ -3,6 +3,7 @@ from flask import redirect, session, render_template, request, abort
 
 import users
 import messages
+import messagefilter
 import dungeon
 import errorhandlers
 
@@ -75,15 +76,31 @@ def updateuser():
     users.updateuser(form=request.form)
 
     return redirect("/adminusers")
-    
-@app.route("/edit")
+
+@app.route("/bannedwords")
+def bannedwords():
+    _abort_if_not_admin()
+
+    word_list = messagefilter.all_words()
+
+    return render_template("bannedwords.html", word_list=word_list)
+
+@app.route("/updatewords", methods=["POST"])
+def updatewords():
+    _abort_if_not_admin()
+
+    messagefilter.delete_and_add_words(form=request.form)
+
+    return redirect("/bannedwords")
+
+@app.route("/editgame")
 def edit():
     ''' Edit your own adventure '''
     _abort_if_not_logged_in(401)            
 
     rooms = dungeon.all_rooms(session["user_id"])
 
-    return render_template("edit.html", rooms=rooms)
+    return render_template("editgame.html", rooms=rooms)
 
 @app.route("/newroom", methods=["POST"])
 def newroom():

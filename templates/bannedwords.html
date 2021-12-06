@@ -1,0 +1,11 @@
+<h2>Dirty words, which are banned from messages</h2>
+
+<form action="/updatewords" method="POST">
+  {% for word in word_list %}
+  <p>{{ word.word }} Delete: <input type="checkbox" name="banned" value="{{ word.word }}" value="wrod" unchecked>
+  {% endfor %}
+  <hr>
+  Add words: <input type="text" name="new_words">
+  <hr>
+  <input type="Submit" value="Update">
+</form>
