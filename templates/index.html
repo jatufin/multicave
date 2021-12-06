@@ -1,7 +1,7 @@
 {% if session.logged_in %}
 <p>You are logged in as {{ session.username }} ({{ session.user_id }})
 
-{% if session.admin %}
+{% if session.adm  %}
   You are an Administrator:
   <a href="/adminusers">User accounts</a>
   <a href="/bannedwords">Manage message filter</a>
@@ -16,16 +16,22 @@ You are normal user
   You can enter these games:
 </h2>
 
-{% for game in games %}
+{% for game in games.public_games %}
 <p>
-  {{ game.title }}
-<p>
-  {{ game.description }}
+  {{ game.title }} : {{ game.description }}
+    <form action="/playgame" method="POST">
+    <input type="hidden" name="game_id" value="{{ game.id }}">
+    <input type="submit" name="submit_button" value="Enter the adventure!">
+  </form>
+  {% if game.game_id in games.current_rooms %}
+  You have already started this game
+  {% endif %}
 <hr>
 {% endfor %}
 
+<hr>
 Or edit your own game <a href="/editgame">here</a>!
-
+<hr>
 <h3>Message board for the poets of you:</h3>
 {% for message in messages %}
 <p>

@@ -1,23 +1,6 @@
 from flask import session, abort
 from db import db
 
-def get_public_games(): # TODI: Check if the user is marked it as public
-    sql = "SELECT * FROM games WHERE published='t'"
-    result = db.session.execute(sql)
-    games = result.fetchall()
-    
-    return games
-    
-def get_games(user_id, create_if_not_found=False):
-    sql = "SELECT * FROM games WHERE owner_id=:owner_id"
-    result = db.session.execute(sql, {"owner_id": user_id})
-    games = result.fetchall()
-    
-    if not games and create_if_not_found:
-        create_game(user_id)
-        return get_games(user_id)
-
-    return games
 
 def get_game(game):
     game_id = game.id
@@ -86,9 +69,6 @@ def update_room(form):
     next_visits_description = form["next_visits_description"]
     
     endroom = "True" if form.get("endroom_selection") else "False"
-
-    
-    # sql = "UPDATE rooms SET title=:title, description=:description, first_visit_description=:first_visit_description, next_visits_description=:next_visits_description, endroom=:endroom WHERE game_id=:game_id AND tag=:tag"
 
     sql = "UPDATE rooms SET title=:title, description=:description, first_visit_description=:first_visit_description, next_visits_description=:next_visits_description, endroom=:endroom WHERE game_id=:game_id AND tag=:tag"
 
