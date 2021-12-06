@@ -16,6 +16,14 @@ You are normal user
   You can enter these games:
 </h2>
 
+{% for game in games %}
+<p>
+  {{ game.title }}
+<p>
+  {{ game.description }}
+<hr>
+{% endfor %}
+
 Or edit your own game <a href="/editgame">here</a>!
 
 <h3>Message board for the poets of you:</h3>

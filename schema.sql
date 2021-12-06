@@ -27,10 +27,11 @@ CREATE TABLE rooms (
        game_id INTEGER,
        tag TEXT,
        PRIMARY KEY (tag, game_id),
-       title TEXT,
+       title TEXT DEFAULT 'New room',
        description TEXT,
        first_visit_description TEXT,
-       next_vistis_description TEXT
+       next_visits_description TEXT,
+       endroom BOOL DEFAULT false
 );
        
 CREATE TABLE conditions (
@@ -46,12 +47,18 @@ CREATE TABLE conditions (
 CREATE TABLE condition_rooms (
        condition_id INTEGER,
        game_id INTEGER,
-       room_tag INTEGER       
+       room_tag TEXT       
 );
 
 CREATE TABLE visited_rooms (
        game_id INTEGER,
-       room_tag INTEGER,
+       room_tag TEXT,
+       player_id INTEGER
+);
+
+CREATE TABLE current_rooms (
+       game_id INTEGER,
+       room_tag TEXT,
        player_id INTEGER
 );
 

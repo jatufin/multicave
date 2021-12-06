@@ -12,8 +12,9 @@ from db import db
 @app.route("/")
 def index():
     all_messages = messages.all_messages()
+    public_games = gameadmin.get_public_games()
     
-    return render_template("index.html", messages=all_messages)
+    return render_template("index.html", messages=all_messages, games=public_games)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -100,30 +101,87 @@ def edit():
 
     user_id = session["user_id"]
     games = gameadmin.get_games(user_id, create_if_not_found=True)
-
-    return render_template("editgame.html", game=games[0])
+    
+    game=gameadmin.get_game(games[0])
+    
+    return render_template("editgame.html", game=game)
 
 @app.route("/updategame", methods=["POST"])
 def updategame():
+    _abort_if_not_logged_in(401)
 
-    return render_template("/editgame")
+    gameadmin.update_game(form=request.form)
+    
+    return redirect("/editgame")
 
            
 @app.route("/newroom", methods=["POST"])
 def newroom():
     _abort_if_not_logged_in(401)                
 
-    dungeon.create_room(session["user_id"], form=request.form)
+    gameadmin.new_room(form=request.form)
+    
+    return redirect("/editgame")
+
+@app.route("/updateroom", methods=["POST"])
+def updateroom():
+    _abort_if_not_logged_in(401)
+
+    gameadmin.update_room(form=request.form)
+
+    return redirect("/editgame")
+
+
+@app.route("/newcondition", methods=["POST"])
+def newcondition():
+    _abort_if_not_logged_in(401)
+
+    gameadmin.new_condition(form=request.form)
+
+    return redirect("/editgame")
+
+
+@app.route("/updatecondition", methods=["POST"])
+def updatecondition():
+    _abort_if_not_logged_in(401)
+
+    submit_action = request.form["submit_button"]
+
+    if submit_action == "Update":
+        gameadmin.update_condition(form=request.form)
+    elif submit_action == "Delete":
+        gameadmin.delete_condition(form=request.form)
+
+    return redirect("/editgame")
+
+
+@app.route("/newconditionroom", methods=["POST"])
+def newconditionroom():
+    _abort_if_not_logged_in(401)
+
+    gameadmin.new_conditionroom(form=request.form)
+    
+    return redirect("/editgame")
+
+
+@app.route("/removeconditionroom", methods=["POST"])
+def removeconditionroom():
+    _abort_if_not_logged_in(401)
+
+    gameadmin.remove_conditionroom(form=request.form)
+    
     return redirect("/editgame")
 
 
 def _abort_if_not_logged_in(code):
-    if not "logged_in" in session:
+    if "logged_in" not in session:
         abort(code)
 
+        
 def _abort_if_not_admin():
     if not _is_admin():
         abort(401)
 
+        
 def _is_admin():
     return "adm" in session and session["adm"]

@@ -55,7 +55,6 @@ def updateuser(form):
 
     sql = "UPDATE users SET adm=:adm, locked=:locked WHERE username=:username"
     try:
-        print("Foo")
         db.session.execute(sql, {"username": username,
                                  "adm": adm,
                                  "locked": locked})
