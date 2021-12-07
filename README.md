@@ -1,7 +1,8 @@
 # Multi Cave - Write and share your own adventure!
 
 ## The status of the project
-* Just now there is no running version on Heroku server
+* The application is available on heroku server
+* Normal user can sign up new account
 * Whole functionality has been implemented
 * The user interface is still only rudimentary
 * Plenty of bug fixing still waiting
