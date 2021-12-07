@@ -71,7 +71,7 @@ def playgame():
                                    request.form["target_room"])
 
     if not room:
-        abort(405)
+        abort(404)
         
     return render_template("playgame.html", room=room)
 

@@ -7,7 +7,7 @@ def unauthorized_error(error):
 
 @app.errorhandler(404)
 def unauthorized_error(error):
-    return render_template("error.html", message="405: Not found")
+    return render_template("error.html", message="404: Not found")
 
 @app.errorhandler(409)
 def unauthorized_error(error):

@@ -1,4 +1,18 @@
 <h1>{{ room.title }}</h1>
 
-<p>{{ room.description }}</p>
-  
+{% for description in room.descriptions %}
+<p>{{ description  }}</p>
+{% endfor %}
+
+{% for choice in room.choices %}
+<form action="/playgame" method="POST">
+  <input type="hidden" name="target_room" value="{{ choice.target_room }}">
+  <input type="hidden" name="game_id" value="{{ room.game_id  }}">
+  <input type="submit" value="{{ choice.choice }}">
+</form>
+{{ choice }}
+{% endfor %}
+
+
+<p>
+<a href="/">Return to main page</a>
