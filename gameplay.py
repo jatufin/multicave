@@ -25,6 +25,15 @@ def get_games(user_id, create_if_not_found=False):
 
     return games
 
+    
+def create_game(user_id):
+    sql = "INSERT INTO games (owner_id) VALUES (:owner_id)"
+    try:
+        db.session.execute(sql, {"owner_id": user_id})
+        db.session.commit()
+    except:
+        abort(401)
+
 
 def get_all_current_rooms(user_id):
     ''' Get list of all rooms in all games where user currently is
