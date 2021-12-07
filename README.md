@@ -1,12 +1,10 @@
 # Multi Cave - Write and share your own adventure!
 
 ## The status of the project
-Currently the project can not be used in the Heroku server:
-* There are issues with user administration, which perevent login
-* Refactoring took longer than aticipated
-* Added user administration and admin rights check
-* Added a table containing banned words, which cause message board to reject messages
-* The game functionality is still missing
+* Just now there is no running version on Heroku server
+* Whole functionality has been implemented
+* The user interface is still only rudimentary
+* Plenty of bug fixing still waiting
 
 ##
 Deployed to Heroku:
