@@ -4,7 +4,7 @@
 <form action="/updateuser" method="POST">
   User: {{ user.username }} ID: {{ user.id }}
   <input type="hidden" name="username" value="{{ user.username }}">
-  Admin: <input type="checkbox" name="adm_selection" value="adm" {{ "checked" if user.admin else "unchecked" }}>
+  Admin: <input type="checkbox" name="adm_selection" value="adm" {{ "checked" if user.adm else "unchecked" }}>
   Locked: <input type="checkbox" name="locked_selection" value="locked" {{ "checked" if user.locked else "unchecked" }}>
   New Password: <input type="password" name="password">
   Confirm Password: <input type="password" name="confirmpw">
