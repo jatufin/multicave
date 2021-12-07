@@ -3,6 +3,9 @@
 ## The status of the project
 * The application is available on heroku server
 * Normal user can sign up new account
+* There is administrative account for testing purposes:
+Username: admin
+Password: password
 * Whole functionality has been implemented
 * The user interface is still only rudimentary
 * Plenty of bug fixing still waiting
