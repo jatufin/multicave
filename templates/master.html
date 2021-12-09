@@ -1,8 +1,14 @@
 <!doctype html>
 <title>Multicave - {% block title %}{% endblock %}</title>
 
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css' )}}">
+</head>
+
 {% if session.logged_in %}
-<p>You are logged in as {{ session.username }} ({{ session.user_id }})
+<p>You are logged in as
+
+  <span class="username">{{ session.username }}</span>
   
   {% if session.adm  %}
   You are an Administrator:

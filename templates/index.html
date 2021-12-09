@@ -6,40 +6,54 @@
 
 </p>
 
-<hr>
-<h2>
-  You can enter these games:
-</h2>
+<div class="gamelist">
+<h2>You can enter these games:</h2>
 
 {% for game in games.public_games %}
-<p>
-  {{ game.title }} : {{ game.description }}
-    <form action="/playgame" method="POST">
-    <input type="hidden" name="game_id" value="{{ game.id }}">
+<div class="gameselect">
+  <form action="/playgame" method="POST">
+  <div class="gametitle">{{ game.title }}</div>
+  <div class="gamedesc">{{ game.description }}</div>
+    
+  <input type="hidden" name="game_id" value="{{ game.id }}">
+  <div class="alignright">
     <input type="submit" name="submit_button" value="Enter the adventure!">
+  </div>
   </form>
   {% if game.game_id in games.current_rooms %}
   You have already started this game
   {% endif %}
-<hr>
+</div>
 {% endfor %}
 
-<hr>
-Or edit your own game <a href="/editgame">here</a>!
-<hr>
-<h3>Share you thoughts and visions:</h3>
-{% for message in messages %}
-<p>
-  Message from {{ message.username }} at {{ message.posting_date.strftime("%Y-%m-%d %H:%M:%S") }}
-<p>
-  {{ message.body }}
-<hr>
-{% endfor %}
+<div class="editown">
+<h2>Or edit your own game <a href="/editgame">here</a>!<h2>
+</div>
+</div>
 
-<form action="/message" method="POST">
-  <textarea name="body" rows="4" cols="50"></textarea>
-  <input type="submit" value="Send new message">
-</form>
+<div class="messageboard">
+  <h3>Share you thoughts and visions:</h3>
+
+  <div class="messagelist">
+    {% for message in messages %}
+    <div class="message">
+      <p class="messageheader">
+	Message from <span class="username">{{ message.username }}</span> at {{ message.posting_date.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+      <p class="messagebody">
+	{{ message.body }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  
+  <div class="newmessage">
+    <form action="/message" method="POST">
+      <textarea name="body" rows="4" cols="50"></textarea>
+      <br>
+      <input type="submit" value="Send new message">
+    </form>
+  </div>
+</div>
+
 {% endblock %}
 
 
