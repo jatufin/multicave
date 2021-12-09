@@ -1,14 +1,9 @@
-{% if session.logged_in %}
-<p>You are logged in as {{ session.username }} ({{ session.user_id }})
+{% extends "master.html" %}
 
-{% if session.adm  %}
-  You are an Administrator:
-  <a href="/adminusers">User accounts</a>
-  <a href="/bannedwords">Manage message filter</a>
-{% else%}
-You are normal user
-{% endif %}
-<a href="/logout">Log out</a>
+{% block title %}Main page{% endblock %}
+
+{% block content %}
+
 </p>
 
 <hr>
@@ -32,7 +27,7 @@ You are normal user
 <hr>
 Or edit your own game <a href="/editgame">here</a>!
 <hr>
-<h3>Message board for the poets of you:</h3>
+<h3>Share you thoughts and visions:</h3>
 {% for message in messages %}
 <p>
   Message from {{ message.username }} at {{ message.posting_date.strftime("%Y-%m-%d %H:%M:%S") }}
@@ -45,17 +40,17 @@ Or edit your own game <a href="/editgame">here</a>!
   <textarea name="body" rows="4" cols="50"></textarea>
   <input type="submit" value="Send new message">
 </form>
+{% endblock %}
 
 
-
-
-{% else %}
+{% block login %}
 <form action="/login" method="POST">
   <p>Username: <input type="text" name="username"></p>
   <p>Password: <input type="password" name="password"></p>
   <input type="submit" value="Login">
 </form>
 <a href="/newuser">Sign up</a>
+{% endblock %}
 
-{% endif %}
+
 

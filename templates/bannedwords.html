@@ -1,4 +1,10 @@
-<h2>Dirty words, which are banned from messages</h2>
+{% extends "master.html" %}
+
+{% block title %}Message board filter{% endblock %}
+
+{% block content %}
+
+<h2>Dirty words, which are banned from the messageboard</h2>
 
 <form action="/updatewords" method="POST">
   {% for word in word_list %}
@@ -9,3 +15,6 @@
   <hr>
   <input type="Submit" value="Update">
 </form>
+
+
+{% endblock %}

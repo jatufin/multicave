@@ -1,4 +1,10 @@
-<h2>Edit users</h2>
+{% extends "master.html" %}
+
+{% block title %}User account management{% endblock %}
+
+{% block content %}
+
+<h2>Administer users</h2>
 
 {% for user in user_list %}
 <form action="/updateuser" method="POST">
@@ -21,3 +27,5 @@ Create new user:
   Confirm Password: <input type="password" name="confirmpw">
   <input type="submit" name="submit_button" value="Create">
 </form>
+
+{% endblock %}

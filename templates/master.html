@@ -1,0 +1,20 @@
+<!doctype html>
+<title>Multicave - {% block title %}{% endblock %}</title>
+
+{% if session.logged_in %}
+<p>You are logged in as {{ session.username }} ({{ session.user_id }})
+  
+  {% if session.adm  %}
+  You are an Administrator:
+  <a href="/adminusers">User accounts</a>
+  <a href="/bannedwords">Manage message filter</a>
+  {% else%}
+  You are a normal user.
+  {% endif %}
+  <a href="/logout">Log out</a>
+  <a href="/">Main page</a>
+  {% block content %}{% endblock %}
+
+  {% else %}
+  {% block login%}{% endblock %}
+  {% endif %}

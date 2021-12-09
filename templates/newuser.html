@@ -1,8 +1,13 @@
-{% if session.logged_in %}
-<p>You are already logged in as {{ session.username }}</p>
-<a href="/index.html">Front page</a>
+{% extends "master.html" %}
 
-{% else %}
+{% block title %}Create new user{% endblock %}
+
+{% block content %}
+<h1>You are already logged in.</h1>
+<p>How did you get here anyways..?</p>
+{% endblock %}
+
+{% block login %}
 <h2>Create a new user account</h2>
 <form action="/createuser" method="POST">
   <p>Username: <input type="text" name="username"></p>
@@ -10,4 +15,4 @@
   <p>Confirm password: <input type="password" name="confirmpw"></p>
   <input type="submit" value="Sign up">
 </form>
-{% endif %}
+{% endblock %}
