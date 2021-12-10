@@ -6,6 +6,7 @@
 
 <h2>Game editing</h2>
 
+<div class="updategame">
 <form action="/updategame" method="POST">
   <input type="hidden" name="game_id" value="{{ game.main.id }}">
   <p>Game title: <input type="text" name="title" value="{{ game.main.title }}">
@@ -14,80 +15,126 @@
   <p>The game starts in room: <input type="text" name="start_room" value="{{ game.main.start_room }}">
   <p><input type="submit" name="submit_button" value="Update the game" >
 </form>
-<hr>
+</div><!-- class="updategame" -->
 
-<h3>Rooms:</h3>
+<div class="roomlist">
+  <h3>Rooms:</h3>
 
-<form action="/newroom" method="POST">
-  <input type="hidden" name="game_id" value="{{ game.main.id }}">
-  Create new room: <input type="text" name="tag">
-  <input type="submit" name="submit_button" value="Create room">
-</form>
-<hr>
-
-{% for room in game.rooms %}
-<form action="/updateroom" method="POST">
-  <input type="hidden" name="game_id" value="{{ room.game_id }}">
-  <input type="hidden" name="tag" value="{{ room.tag }}">
-  <p>Room: <b>{{ room.tag }}</b> Title: <input type="text" name="title" value="{{ room.title }}">
-  <p>Description:<br>
-  <textarea name="description" rows=4 cols=50>{{ room.description }}</textarea>
-  <p>
-    Text shown during the first visit:<br>
-    <textarea name="first_visit_description" rows=2 cols=50>{{ room.first_visit_description }}</textarea>
-  <p>
-    Text shown after the first visit:<br>
-    <textarea name="next_visits_description" rows=2 cols=50>{{ room.next_visits_description }}</textarea>
-  <p>Game ends here: <input type="checkbox" name="endroom_selection" value="endroom" {{ "checked" if room.endroom else "unchecked" }}>
-  <p><input type="submit" name="submit_button" value="Update the room">
-</form>
-<hr>
-<p>Choices and conditions in the room {{ room.tag }}:
-  <form action="/newcondition" method="POST">
-    <input type="hidden" name="game_id" value="{{ room.game_id }}">
-    <input type="hidden" name="room_tag" value="{{ room.tag }}">
-    <input type="submit" name="submit_button" value="Create new condition">
-  </form>
-</p>
-{% for condition in game.conditions %}
-{% if condition.room_tag == room.tag %}
-<form action="/updatecondition" method="POST">
-  <input type="hidden" name="id" value="{{ condition.id }}">
-  <input type="hidden" name="game_id" value="{{ condition.game_id }}">
-  <input type="hidden" name="tag" value="{{ condition.room_tag }}">
-  If all the required rooms have already been visited, show:<br>
-  <p>Description:
-  <textarea name="all_visited" rows=2 cols=50>{{ condition.all_visited }}</textarea>
-  <p>Otherwise show:
-  <textarea name="not_all_visited" rows=2 cols=50>{{ condition.not_all_visited }}</textarea>
-  <p>If all wisited, Player has a choice: <input type="text" name="all_visited_choice" value="{{ condition.all_visited_choice }}">
-  which leads to the next room: <input type="text" name="all_visited_target" value="{{ condition.all_visited_target }}">
-  <input type="submit" name="submit_button" value="Update">
-  <input type="submit" name="submit_button" value="Delete">
-</form>
-<p>Rooms, which player must have visit before this choice will be available in this room:
-{% for condition_room in game.condition_rooms %}
-{% if condition_room.condition_id == condition.id %}
-<form action="/removeconditionroom" method="POST">
-  <input type="hidden" name="condition_id" value="{{ condition_room.condition_id }}">
-  <input type="hidden" name="game_id" value="{{ condition_room.game_id }}">
-  Room: <input type="text" name="room_tag" value="{{ condition_room.room_tag }}">
-  <input type="submit" name="submit_button" value="Remove room from the list">
-</form>
-{% endif %}
-{% endfor %}
-  <form action="/newconditionroom" method="POST">
-    <input type="hidden" name="condition_id" value="{{ condition.id }}">
-    <input type="hidden" name="game_id" value="{{ room.game_id }}">
-    <input type="text" name="room_tag">
-    <input type="submit" name="submit_button" value="Add room to the list">
-  </form>
-<hr>
-{% endif %}
-{% endfor %}
-<hr>
-{% endfor %}
+  <ul>
+  {% for room in game.rooms %}
+  <li>{{ room.tag }}: {{ room.title }}</li>
+  {% endfor %}
+  </ul>
+  <div class="newroom">
+    <form action="/newroom" method="POST">
+      <input type="hidden" name="game_id" value="{{ game.main.id }}">
+      Tag for a new room: <input type="text" name="tag">
+      <input type="submit" name="submit_button" value="Create room">
+    </form>
+  </div><!-- class="newroom" -->
   
 
+  {% for room in game.rooms %}
+  <div class="roommain">
+
+    <div class="roomleft roommain">
+      
+      <form action="/updateroom" method="POST">
+	<input type="hidden" name="game_id" value="{{ room.game_id }}">
+	<input type="hidden" name="tag" value="{{ room.tag }}">
+	
+	<h2>Room: {{ room.tag }}</h2>
+	Title: <input type="text" name="title" value="{{ room.title }}">
+	<p>Description:<br>
+	  <textarea name="description" rows=5>{{ room.description }}</textarea>
+	<p>
+	  Text shown during the first visit:<br>
+	  <textarea name="first_visit_description" rows=2>{{ room.first_visit_description }}</textarea>
+	<p>
+	  Text shown after the first visit:<br>
+	  <textarea name="next_visits_description" rows=2>{{ room.next_visits_description }}</textarea>
+	<p>Game ends here: <input type="checkbox" name="endroom_selection" value="endroom" {{ "checked" if room.endroom else "unchecked" }}>
+	<p><input type="submit" name="submit_button" value="Update the room">
+      </form>
+
+    </div> <!-- class="roomleft roommain" -->
+
     
+    <div class="roomright roommain">
+      
+      <div class="newcondition roommain">
+	<p>Choices and conditions in the room {{ room.tag }}:
+	  <form action="/newcondition" method="POST">
+	    <input type="hidden" name="game_id" value="{{ room.game_id }}">
+	    <input type="hidden" name="room_tag" value="{{ room.tag }}">
+	    <input type="submit" name="submit_button" value="Create new condition">
+	  </form>
+	</p>
+      </div> <!-- class="newcondition" -->
+      
+      <div class="conditionlist roommain">
+	
+	{% for condition in game.conditions %}
+
+	{% if condition.room_tag == room.tag %}
+	<div class="condition roommain">
+	  
+	  <form action="/updatecondition" method="POST">
+	    <input type="hidden" name="id" value="{{ condition.id }}">
+	    <input type="hidden" name="game_id" value="{{ condition.game_id }}">
+	    <input type="hidden" name="tag" value="{{ condition.room_tag }}">
+	    <h3>Choice: {{ condition.all_visited_choice }} target: {{ condition.all_visited_target }}</h3>
+	    If all the required rooms have already been visited, show:
+	    <br>
+	    <textarea name="all_visited" rows=2>{{ condition.all_visited }}</textarea>
+	    <br>
+	    Otherwise show:
+	    <br>
+	    <textarea name="not_all_visited" rows=2>{{ condition.not_all_visited }}</textarea>
+	    <br>
+	    Choice: <input type="text" name="all_visited_choice" value="{{ condition.all_visited_choice }}">
+	    Leads to room: <input type="text" name="all_visited_target" value="{{ condition.all_visited_target }}">
+	    <br>
+	    <span>
+	      <input class="alignright" type="submit" name="submit_button" value="Update">
+	      <input class="alignright" type="submit" name="submit_button" value="Delete">
+	    </span>
+	  </form>
+	  
+	  <div class="conditionroomlist roommain">
+	    <p>Rooms, which player must have visit before this choice will be available in this room: (if there is no rooms in the list, the choice is allways available)
+	      {% for condition_room in game.condition_rooms %}
+	      {% if condition_room.condition_id == condition.id %}
+	      <div class="conditionroom roommain">
+		<form action="/removeconditionroom" method="POST">
+		  <input type="hidden" name="condition_id" value="{{ condition_room.condition_id }}">
+		  <input type="hidden" name="game_id" value="{{ condition_room.game_id }}">
+		  <input type="text" name="room_tag" value="{{ condition_room.room_tag }}">
+		  <input class="alignright" type="submit" name="submit_button" value="Remove room from the list">
+		</form>
+	      </div> <!-- class="conditionroom" -->
+	      {% endif %}
+	      {% endfor %}
+	  
+	      <form action="/newconditionroom" method="POST">
+		<input type="hidden" name="condition_id" value="{{ condition.id }}">
+		<input type="hidden" name="game_id" value="{{ room.game_id }}">
+		<span class="alignright">
+		  <input type="text" name="room_tag">
+		  <input  type="submit" name="submit_button" value="Add room to the list">
+		</span>
+	      </form>
+	  </div> <!-- class="conditionroomlist" -->
+
+	</div><!-- class="condition" -->
+	{% endif %}
+	
+	{% endfor %}
+      </div> <!-- class="conditionlist"> -->
+    </div> <!-- class="roomright" -->
+  </div> <!-- class="roommain" -->
+{% endfor %}
+</div> <!-- class="roomlist" -->
+
+
 {% endblock %}

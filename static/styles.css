@@ -147,3 +147,90 @@ div.newuser {
 .alignright {
     float: right;
 }
+
+
+div.updategame {
+    overflow: hidden;
+    margin-top: 10px;
+    background: #333333;
+    
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+div.roomlist {
+    font-family: serif;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+div.roommain {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-left: 1px;
+    margin-right: 1px;
+
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 10px;
+
+    background: #661111;	
+}
+
+div.roomleft {
+    overflow: hidden;
+    width: 35%;
+    float: left;
+}
+
+div.roomright {
+    overflow: hidden;
+    width: 60%;
+    float: right;    
+}
+
+div.conditionlist {
+    overflow: hidden;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+    
+div.condition {
+    overflow: hidden;
+    // background: #555555;
+    border-style: solid;
+    border-width: medium;
+    border-color: black;
+}
+
+div.newcondition {
+    overflow: hidden;
+}
+
+div.conditionroomlist {
+    width: 90%;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    overflow: hidden;
+    float: left;
+    background: #555555;
+}
+
+.roommain .conditionroom {
+    text-size: small;
+    margin-top: 0px;
+    background: #555555;    
+}
+
+div.newroom {
+    overflow: hidden;
+    background: #661111;
+}
+
+.roommain textarea {
+    width: 22em;
+}

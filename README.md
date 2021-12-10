@@ -7,8 +7,7 @@
 Username: admin
 Password: password
 * Whole functionality has been implemented
-* The user interface is still only rudimentary
-* Plenty of bug fixing still waiting
+* Refining the user interface has begun
 
 ##
 Deployed to Heroku:
