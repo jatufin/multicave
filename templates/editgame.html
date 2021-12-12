@@ -57,6 +57,13 @@
 	<p><input type="submit" name="submit_button" value="Update the room">
       </form>
 
+      <form action="/deleteroom" method="POST">
+	<input type="hidden" name="game_id" value="{{ room.game_id }}">
+	<input type="hidden" name="tag" value="{{ room.tag }}">
+	Delete:<input type="checkbox" name="confirmdelete_selection" unchecked>
+	<input type="submit" name="delete_button" value="Confirm delete">
+      </form>
+	
     </div> <!-- class="roomleft roommain" -->
 
     

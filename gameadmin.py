@@ -83,7 +83,44 @@ def update_room(form):
         db.session.commit()
     except:
         abort(409)    
+
+def delete_room(form):
+    user_id = session["user_id"]
+    game_id = form["game_id"]
+    room_tag = form["tag"]
+    confirm = True if form.get("confirmdelete_selection") else False
+
+    if not is_owner(game_id, user_id):
+        abort(401)
         
+    if not confirm:
+        return
+
+    sql_delete_from_visited = "DELETE FROM visited_rooms WHERE game_id=:game_id AND room_tag=:room_tag"
+    sql_delete_from_condition_rooms = "DELETE FROM condition_rooms WHERE game_id=:game_id AND room_tag=:room_tag"
+    sql_delete_from_conditions = "DELETE FROM conditions WHERE game_id=:game_id AND room_tag=:room_tag"
+    sql_delete_from_currents = "DELETE FROM current_rooms WHERE game_id=:game_id AND room_tag=:room_tag"
+    sql_delete_from_all_rooms = "DELETE FROM rooms WHERE game_id=:game_id AND tag=:room_tag"
+    
+    try:
+        db.session.execute(sql_delete_from_visited, {"game_id": game_id,
+                                                    "room_tag": room_tag})
+        db.session.execute(sql_delete_from_condition_rooms, {"game_id": game_id,
+                                                            "room_tag": room_tag})
+        db.session.execute(sql_delete_from_conditions, {"game_id": game_id,
+                                                       "room_tag": room_tag})
+        db.session.execute(sql_delete_from_currents, {"game_id": game_id,
+                                                     "room_tag": room_tag})
+        db.session.execute(sql_delete_from_all_rooms, {"game_id": game_id,
+                                                      "room_tag": room_tag})
+        db.session.commit()
+
+    except:
+        print("Delete meni pieleen")
+        abort(409)
+    
+
+    
 def get_conditions(game_id):
     sql = "SELECT * FROM conditions WHERE game_id=:game_id"
     result = db.session.execute(sql, {"game_id": game_id})

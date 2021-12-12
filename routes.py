@@ -171,6 +171,13 @@ def updateroom():
 
     return redirect("/editgame")
 
+@app.route("/deleteroom", methods=["POST"])
+def deleteroom():
+    _abort_if_not_logged_in(401)
+    
+    gameadmin.delete_room(form=request.form)
+
+    return redirect("/editgame")
 
 @app.route("/newcondition", methods=["POST"])
 def newcondition():
