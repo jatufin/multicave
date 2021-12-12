@@ -91,14 +91,15 @@
 	    <input type="hidden" name="game_id" value="{{ condition.game_id }}">
 	    <input type="hidden" name="tag" value="{{ condition.room_tag }}">
 	    <h3>Choice: {{ condition.all_visited_choice }} target: {{ condition.all_visited_target }}</h3>
-	    If all the required rooms have already been visited, show:
-	    <br>
-	    <textarea name="all_visited" rows=2>{{ condition.all_visited }}</textarea>
-	    <br>
-	    Otherwise show:
+	    If player hasn't visited all required rooms, show:
 	    <br>
 	    <textarea name="not_all_visited" rows=2>{{ condition.not_all_visited }}</textarea>
 	    <br>
+	    If all the required rooms have been visited, the coice is active. Show:
+	    <br>
+	    <textarea name="all_visited" rows=2>{{ condition.all_visited }}</textarea>
+	    <br>
+
 	    Choice: <input type="text" name="all_visited_choice" value="{{ condition.all_visited_choice }}">
 	    Leads to room: <input type="text" name="all_visited_target" value="{{ condition.all_visited_target }}">
 	    <br>
@@ -109,7 +110,7 @@
 	  </form>
 	  
 	  <div class="conditionroomlist roommain">
-	    <p>Rooms, which player must have visit before this choice will be available in this room: (if there is no rooms in the list, the choice is allways available)
+	    <p>Rooms, which player must have to visit before this choice will be available in this room: (if there is no rooms in the list, the choice is allways available)
 	      {% for condition_room in game.condition_rooms %}
 	      {% if condition_room.condition_id == condition.id %}
 	      <div class="conditionroom roommain">

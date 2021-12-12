@@ -115,7 +115,7 @@ def enter_room(game_id, user_id, room_tag):
     conditions = get_condition_results(game_id, user_id)
 
     # Add list of descriptions based on visited rooms
-    return_object["descriptions"] = conditions["descriptions"]
+    return_object["descriptions"] += conditions["descriptions"]
     
     # List of possible choices user can make
     return_object["choices"] = conditions["choices"]
@@ -128,8 +128,12 @@ def all_visited_rooms(game_id, user_id):
     '''
     sql = "SELECT room_tag FROM visited_rooms WHERE game_id=:game_id AND player_id=:user_id"
     result = db.session.execute(sql, {"user_id": user_id, "game_id": game_id})
-    visited_rooms = result.fetchall()
+    rows = result.fetchall()
 
+    visited_rooms = []
+    for row in rows:
+        visited_rooms.append(row.room_tag)
+        
     return visited_rooms
 
 def has_visited(game_id, user_id, room_tag):
@@ -172,11 +176,12 @@ def get_condition_results(game_id, user_id):
         sql = "SELECT * FROM condition_rooms WHERE condition_id=:condition_id"
         result = db.session.execute(sql, {"condition_id": condition.id})
         condition_rooms = result.fetchall()
-       
+        
         all_condition_rooms_visited = True
 
         for room in condition_rooms:
-            if room not in visited_rooms:
+            if room.room_tag not in visited_rooms:
+                print(f"Huone: {room} ei ole listassa {visited_rooms}")
                 all_condition_rooms_visited = False
                 
         if all_condition_rooms_visited:
