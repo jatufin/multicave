@@ -61,9 +61,17 @@ def message():
 @app.route("/playgame", methods=["POST"])
 def playgame():
     _abort_if_not_logged_in(401)
+
     game_id = request.form["game_id"]
     user_id = session["user_id"]
+
+    if "resetconfirm" in request.form:
+        gameplay.reset_game(game_id=game_id, user_id=user_id)
+        return redirect("/")
     
+    if "gamereset" in request.form:
+        return render_template("playgame.html", reset="YES", game_id=game_id)
+    print("ROOM")
     if "target_room" not in request.form:
         room = gameplay.enter_current_room(game_id, user_id)
     else:

@@ -1,24 +1,52 @@
 {% extends "master.html" %}
 
-{% block title %}In the oother world{% endblock %}
+{% block title %}In the other world{% endblock %}
 
 {% block content %}
+{% if reset == "YES"  %}
+<div class="gamereset">
+  <h2>Do you really want to exit and reset the game?</h2>
+
+  <div class="gameresetconfirmform">
+    <form action="/playgame" method="POST">
+      <input type="hidden" name="game_id" value="{{ game_id }}">
+      <input type="hidden" name="resetconfirm" value="">
+      <input type="submit" value="Really">
+      <input type="submit" value="No">
+    </form>
+  </div><!-- class="gameresetconfirmform" -->  
+</div><!-- class="gamereset" -->
+{% else %} 
+<div class="gameroom">
+  <div class="gameroomtitle">
+    <h1>{{ room.title }}</h1>
+  </div><!-- class="gameroomtitle" -->
+  <div class="gameroomdesc">
+  {% for description in room.descriptions %}
+  <p>{{ description  }}</p>
+  {% endfor %}
+  </div><!-- class="gameroomdesc" -->
 
 
-<h1>{{ room.title }}</h1>
+  <div class="gameroomchoices">
+  {% for choice in room.choices %}
+  <form action="/playgame" method="POST">
+    <input type="hidden" name="target_room" value="{{ choice.target_room }}">
+    <input type="hidden" name="game_id" value="{{ room.game_id  }}">
+    <input type="submit" value="{{ choice.choice }}">
+  </form>
+  {% endfor %}
+  </div><!-- class="gameroomchoices" -->
+</div><!-- class="gameroom" -->
 
-{% for description in room.descriptions %}
-<p>{{ description  }}</p>
-{% endfor %}
-
-{% for choice in room.choices %}
-<form action="/playgame" method="POST">
-  <input type="hidden" name="target_room" value="{{ choice.target_room }}">
-  <input type="hidden" name="game_id" value="{{ room.game_id  }}">
-  <input type="submit" value="{{ choice.choice }}">
-</form>
-{{ choice }}
-{% endfor %}
+<div class="gameresetform">
+  <form action="/playgame" method="POST">
+    <input type="hidden" name="game_id" value="{{ room.game_id  }}">
+    <input type="hidden" name="gamereset" value="YES">
+    <input type="submit" value="Start over from beginning">
+  </form>
+</div><!-- class="gameresetform" -->
+{% endif %}
 
 
 {% endblock %}

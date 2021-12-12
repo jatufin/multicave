@@ -177,9 +177,11 @@ def get_condition_results(game_id, user_id):
 
         for room in condition_rooms:
             if room not in visited_rooms:
-                condition = False
+                all_condition_rooms_visited = False
                 
         if all_condition_rooms_visited:
+            print("CONDITION:")            
+            print(condition)
             descriptions.append(condition.all_visited)
             choices.append({"choice": condition.all_visited_choice,
                             "target_room": condition.all_visited_target})
@@ -246,3 +248,17 @@ def update_current_room(game_id, user_id, room_tag):
     except:
         abort(409)
     
+def reset_game(game_id, user_id):
+    ''' Remove user's visited room and current room data for the give game
+    '''
+    sql_remove_current_room = "DELETE FROM current_rooms WHERE player_id=:player_id AND game_id=:game_id"
+    sql_remove_visited_rooms = "DELETE FROM visited_rooms WHERE player_id=:player_id AND game_id=:game_id"
+
+    try:
+        db.session.execute(sql_remove_current_room, {"game_id": game_id,
+                                                     "player_id": user_id})
+        db.session.execute(sql_remove_visited_rooms, {"game_id": game_id,
+                                                      "player_id": user_id})
+        db.session.commit()
+    except:
+        abort(409)
