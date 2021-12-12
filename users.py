@@ -8,15 +8,16 @@ def login(username, password):
     sql = "SELECT id, locked, password, adm FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username": username})
     user = result.fetchone()
+
     if not user:
-        abort(401)
+        return False
 
     if user.locked:
-        abort(401)
+        return False
 
     hash_value = user.password
     if not check_password_hash(hash_value, password):
-        abort(401)
+        return False
 
     session["logged_in"] = True
     session["username"] = username

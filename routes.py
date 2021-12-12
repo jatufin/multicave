@@ -30,11 +30,19 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def login():
+    _abort_if_invalid_form(request.form)
+
+    print("LOGIN")
     username = request.form["username"]
     password = request.form["password"]
 
-    if users.login(username, password):
-        return redirect("/")
+    if not users.login(username, password):
+        return abort(403)
+
+    return redirect("/")    
+
+
+
 
     
 @app.route("/logout")
@@ -52,6 +60,8 @@ def newuser():
 def message():
     ''' Write new message to the message board '''
     _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
+            
     body = request.form["body"]
     messages.new_message(body)
     
@@ -61,7 +71,8 @@ def message():
 @app.route("/playgame", methods=["POST"])
 def playgame():
     _abort_if_not_logged_in(401)
-
+    _abort_if_invalid_form(request.form)
+    
     game_id = request.form["game_id"]
     user_id = session["user_id"]
 
@@ -86,6 +97,8 @@ def playgame():
     
 @app.route("/createuser", methods=["POST"])
 def createuser():
+    _abort_if_invalid_form(request.form)
+    
     username = request.form["username"]
     password = request.form["password"]
     confirmpw = request.form["confirmpw"]
@@ -111,6 +124,7 @@ def adminusers():
 @app.route("/updateuser", methods=["POST"])
 def updateuser():
     _abort_if_not_admin()
+    _abort_if_invalid_form(request.form)
 
     users.updateuser(form=request.form)
 
@@ -127,6 +141,7 @@ def bannedwords():
 @app.route("/updatewords", methods=["POST"])
 def updatewords():
     _abort_if_not_admin()
+    _abort_if_invalid_form(request.form)
 
     messagefilter.delete_and_add_words(form=request.form)
 
@@ -135,7 +150,8 @@ def updatewords():
 @app.route("/editgame")
 def edit():
     ''' Edit your own adventure '''
-    _abort_if_not_logged_in(401)            
+    _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
 
     user_id = session["user_id"]
     games = gameplay.get_games(user_id, create_if_not_found=True)
@@ -149,6 +165,7 @@ def edit():
 @app.route("/updategame", methods=["POST"])
 def updategame():
     _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
 
     gameadmin.update_game(form=request.form)
     
@@ -157,7 +174,8 @@ def updategame():
            
 @app.route("/newroom", methods=["POST"])
 def newroom():
-    _abort_if_not_logged_in(401)                
+    _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
 
     gameadmin.new_room(form=request.form)
     
@@ -174,6 +192,7 @@ def updateroom():
 @app.route("/deleteroom", methods=["POST"])
 def deleteroom():
     _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
     
     gameadmin.delete_room(form=request.form)
 
@@ -182,6 +201,7 @@ def deleteroom():
 @app.route("/newcondition", methods=["POST"])
 def newcondition():
     _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
 
     gameadmin.new_condition(form=request.form)
 
@@ -191,6 +211,7 @@ def newcondition():
 @app.route("/updatecondition", methods=["POST"])
 def updatecondition():
     _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
 
     submit_action = request.form["submit_button"]
 
@@ -205,6 +226,7 @@ def updatecondition():
 @app.route("/newconditionroom", methods=["POST"])
 def newconditionroom():
     _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
 
     gameadmin.new_conditionroom(form=request.form)
     
@@ -214,6 +236,7 @@ def newconditionroom():
 @app.route("/removeconditionroom", methods=["POST"])
 def removeconditionroom():
     _abort_if_not_logged_in(401)
+    _abort_if_invalid_form(request.form)
 
     gameadmin.remove_conditionroom(form=request.form)
     
@@ -238,3 +261,24 @@ def _abort_if_not_admin():
         
 def _is_admin():
     return "adm" in session and session["adm"]
+
+
+def _abort_if_invalid_form(form):
+    if _fields_too_long(form):
+        abort(413)
+
+        
+def _fields_too_long(form):
+    """ Goes over all fields in a form, and returns False if one exceeds
+    the limit value
+    """
+    limit = 1000  # Limit value for a length in any field
+    for name, value in form.items():
+        print(f"Name: {name} Pituus: {len(value)}")
+        if len(value) > limit:
+            return True
+    
+    return False
+
+    
+    
