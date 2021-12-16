@@ -1,7 +1,7 @@
 CREATE TABLE users (
        id SERIAL PRIMARY KEY,
-       locked BOOLEAN DEFAULT false,       
-       adm BOOLEAN DEFAULT false,
+       locked BOOLEAN DEFAULT false NOT NULL,       
+       adm BOOLEAN DEFAULT false NOT NULL,
        username VARCHAR(12) UNIQUE NOT NULL,
        password VARCHAR(128) NOT NULL
        );
@@ -16,22 +16,22 @@ CREATE TABLE messages (
 
 CREATE TABLE games (
        id SERIAL PRIMARY KEY,
-       owner_id INTEGER,
-       published BOOL DEFAULT false,
+       owner_id INTEGER NOT NULL,
+       published BOOL DEFAULT false NOT NULL,
        title VARCHAR(20) NOT NULL,
        description VARCHAR(256),
-       start_room VARCHAR(10)
+       start_room VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE rooms (
        game_id INTEGER NOT NULL,
        tag VARCHAR(10) NOT NULL,
        PRIMARY KEY (tag, game_id),
-       title VARCHAR(30) DEFAULT 'New room',
+       title VARCHAR(30) DEFAULT 'New room' NOT NULL,
        description VARCHAR(1000),
        first_visit_description VARCHAR(1000),
        next_visits_description VARCHAR(1000),
-       endroom BOOL DEFAULT false
+       endroom BOOL DEFAULT false NOT NULL
 );
        
 CREATE TABLE conditions (
@@ -41,7 +41,7 @@ CREATE TABLE conditions (
        all_visited VARCHAR(200),
        not_all_visited VARCHAR(200),
        all_visited_choice VARCHAR(50),
-       all_visited_target VARCHAR(50)
+       all_visited_target VARCHAR(10)
 );
 
 CREATE TABLE condition_rooms (
