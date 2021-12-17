@@ -1,5 +1,6 @@
 from flask import session, abort
 from db import db
+import random
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -27,15 +28,26 @@ def login(username, password):
     return True
             
 
-def createuser(username, password):                                    
-    sql = "INSERT INTO users (username) VALUES (:username)"
+def createuser(username, password):
+    """Create new user into the users table
 
+    Args:
+        username : String
+        password : String
+    """
+    sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
+
+    # The value is mandatory, so fill it with a random string
+    dummy_password = ''.join(random.SystemRandom().choice("1234567890") for _ in range(100))
+    
     try:
-        db.session.execute(sql, {"username": username})
+        db.session.execute(sql, {"username": username,
+                                 "password": dummy_password})
         db.session.commit()
     except:
         abort(409)
 
+    # Properly create a password hash
     set_password(username, password)
                              
 def userlist():

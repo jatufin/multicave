@@ -32,7 +32,6 @@ def index():
 def login():
     _abort_if_invalid_form(request.form)
 
-    print("LOGIN")
     username = request.form["username"]
     password = request.form["password"]
 
@@ -40,9 +39,6 @@ def login():
         return abort(403)
 
     return redirect("/")    
-
-
-
 
     
 @app.route("/logout")
@@ -55,6 +51,26 @@ def logout():
 def newuser():
     # _abort_if_not_logged_in(401)
     return render_template("newuser.html")
+
+    
+@app.route("/createuser", methods=["POST"])
+def createuser():
+    _abort_if_invalid_form(request.form)
+    
+    username = request.form["username"]
+    password = request.form["password"]
+    confirmpw = request.form["confirmpw"]
+
+    if password != confirmpw:
+        abort(401)
+
+    users.createuser(username, password)
+
+    if _is_admin():
+        return redirect("/adminusers")
+
+    return redirect("/")
+
 
 @app.route("/message", methods=["POST"])
 def message():
@@ -94,24 +110,6 @@ def playgame():
         
     return render_template("playgame.html", room=room)
 
-    
-@app.route("/createuser", methods=["POST"])
-def createuser():
-    _abort_if_invalid_form(request.form)
-    
-    username = request.form["username"]
-    password = request.form["password"]
-    confirmpw = request.form["confirmpw"]
-
-    if password != confirmpw:
-        abort(401)
-
-    users.createuser(username, password)
-
-    if _is_admin():
-        return redirect("/adminusers")
-
-    return redirect("/")
 
 @app.route("/adminusers")
 def adminusers():
@@ -168,8 +166,11 @@ def updategame():
     _abort_if_invalid_form(request.form)
 
     gameadmin.update_game(form=request.form)
-    
-    return redirect("/editgame")
+
+    if "tag" in request.form:
+        tag = request.form["tag"]
+        
+    return redirect(f"/editgame#{tag}")
 
            
 @app.route("/newroom", methods=["POST"])
@@ -178,8 +179,12 @@ def newroom():
     _abort_if_invalid_form(request.form)
 
     gameadmin.new_room(form=request.form)
-    
-    return redirect("/editgame")
+
+    if "tag" in request.form:
+        tag = request.form["tag"]
+        
+    return redirect(f"/editgame#{tag}")
+
 
 @app.route("/updateroom", methods=["POST"])
 def updateroom():
@@ -187,7 +192,11 @@ def updateroom():
 
     gameadmin.update_room(form=request.form)
 
-    return redirect("/editgame")
+    if "tag" in request.form:
+        tag = request.form["tag"]
+        
+    return redirect(f"/editgame#{tag}")
+
 
 @app.route("/deleteroom", methods=["POST"])
 def deleteroom():
@@ -205,7 +214,10 @@ def newcondition():
 
     gameadmin.new_condition(form=request.form)
 
-    return redirect("/editgame")
+    if "room_tag" in request.form:
+        tag = request.form["room_tag"]
+        
+    return redirect(f"/editgame#{tag}")
 
 
 @app.route("/updatecondition", methods=["POST"])
@@ -220,7 +232,10 @@ def updatecondition():
     elif submit_action == "Delete":
         gameadmin.delete_condition(form=request.form)
 
-    return redirect("/editgame")
+    if "tag" in request.form:
+        tag = request.form["tag"]
+        
+    return redirect(f"/editgame#{tag}")        
 
 
 @app.route("/newconditionroom", methods=["POST"])
@@ -229,8 +244,11 @@ def newconditionroom():
     _abort_if_invalid_form(request.form)
 
     gameadmin.new_conditionroom(form=request.form)
-    
-    return redirect("/editgame")
+
+    if "room_tag" in request.form:
+        tag = request.form["room_tag"]
+        
+    return redirect(f"/editgame#{tag}")
 
 
 @app.route("/removeconditionroom", methods=["POST"])
@@ -239,8 +257,11 @@ def removeconditionroom():
     _abort_if_invalid_form(request.form)
 
     gameadmin.remove_conditionroom(form=request.form)
-    
-    return redirect("/editgame")
+
+    if "room_tag" in request.form:
+        tag = request.form["room_tag"]
+        
+    return redirect(f"/editgame#{tag}")
 
 
 def _logged_in():

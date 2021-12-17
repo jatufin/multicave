@@ -158,7 +158,7 @@ div.newuser {
 
 .username {
     display: inline-block;
-    width: 4em;
+    min-width: 4em;
     font-size: larger;
     color: #DD1111;
 }
@@ -284,6 +284,10 @@ div.gameroomdesc {
     color: #00aa00;    
 }
 
+input.choice {
+    width: 20em;
+    margin-top: 5px;
+}
 div.messagefilterword {
     background: black;
     padding-top: 5px;

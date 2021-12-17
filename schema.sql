@@ -18,9 +18,9 @@ CREATE TABLE games (
        id SERIAL PRIMARY KEY,
        owner_id INTEGER NOT NULL,
        published BOOL DEFAULT false NOT NULL,
-       title VARCHAR(20) NOT NULL,
-       description VARCHAR(256),
-       start_room VARCHAR(10) NOT NULL
+       title VARCHAR(40) DEFAULT 'New game' NOT NULL,
+       description VARCHAR(256) DEFAULT '',
+       start_room VARCHAR(10) DEFAULT ''
 );
 
 CREATE TABLE rooms (
@@ -28,9 +28,9 @@ CREATE TABLE rooms (
        tag VARCHAR(10) NOT NULL,
        PRIMARY KEY (tag, game_id),
        title VARCHAR(30) DEFAULT 'New room' NOT NULL,
-       description VARCHAR(1000),
-       first_visit_description VARCHAR(1000),
-       next_visits_description VARCHAR(1000),
+       description VARCHAR(1000) DEFAULT '',
+       first_visit_description VARCHAR(1000) DEFAULT '',
+       next_visits_description VARCHAR(1000) DEFAULT '',
        endroom BOOL DEFAULT false NOT NULL
 );
        
@@ -38,10 +38,10 @@ CREATE TABLE conditions (
        id SERIAL PRIMARY KEY,
        game_id INTEGER NOT NULL,
        room_tag VARCHAR(10) NOT NULL,
-       all_visited VARCHAR(200),
-       not_all_visited VARCHAR(200),
-       all_visited_choice VARCHAR(50),
-       all_visited_target VARCHAR(10)
+       all_visited VARCHAR(200) DEFAULT '',
+       not_all_visited VARCHAR(200) DEFAULT '',
+       all_visited_choice VARCHAR(50) DEFAULT '',
+       all_visited_target VARCHAR(10) DEFAULT ''
 );
 
 CREATE TABLE condition_rooms (
