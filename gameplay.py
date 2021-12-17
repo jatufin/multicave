@@ -1,10 +1,19 @@
 from flask import session, abort
 from db import db
 
-import gameadmin
 
-def get_public_games(): # TODI: Check if the user is marked it as public
-    sql = "SELECT * FROM games WHERE published='t'"
+def get_public_games():
+    """Get list of all the games which are marked as public
+    The username of the game's owner is also queried.
+
+    Returns:
+       Array containing dictionary objects
+    """
+    sql = """
+SELECT games.*, users.username AS owner
+    FROM games, users
+    WHERE published='t' AND users.id = games.owner_id;
+ """
     result = db.session.execute(sql)
     games = result.fetchall()
     
@@ -12,9 +21,12 @@ def get_public_games(): # TODI: Check if the user is marked it as public
 
 
 def get_games(user_id, create_if_not_found=False):
-    ''' Get list of all the games user is owner of.
+    """ Get a list of all the games user is owner of.
     Currently each user has only one own game.
-    '''
+
+    Returns:
+        Array
+    """
     sql = "SELECT * FROM games WHERE owner_id=:user_id"
     result = db.session.execute(sql, {"user_id": user_id})
     games = result.fetchall()
@@ -36,8 +48,8 @@ def create_game(user_id):
 
 
 def get_all_current_rooms(user_id):
-    ''' Get list of all rooms in all games where user currently is
-    '''
+    """ Get list of all rooms in all games where user currently is
+    """
     sql = "SELECT * FROM current_rooms WHERE player_id=:user_id"
     result = db.session.execute(sql, {"user_id": user_id})
     current_rooms = result.fetchall()
@@ -70,9 +82,9 @@ def get_current_room(game_id, user_id):
 
 
 def enter_current_room(game_id, user_id):
-    ''' Go to the room, which has been saved to the current_rooms table,
+    """Go to the room, which has been saved to the current_rooms table,
     otherwise the starting room of the game will be opened.
-    '''
+    """
     current_room = get_current_room(game_id, user_id)
 
     return enter_room(game_id, user_id, current_room)
@@ -81,12 +93,18 @@ def enter_current_room(game_id, user_id):
 
 def enter_room(game_id, user_id, room_tag):
     """ First check, if user is allowed to enter the room.
-    If user has not visited the room before, visited_rooms table is updated, and return description is
-    constructed based on if this is first visit or not.
+    If user has not visited the room before, visited_rooms table is updated,
+    and return description is constructed based on if this is first visit or not.
+    Possible choices are returned as a list of descriptions and tags of the
+    target rooms.
 
-    Possible choices are returned as a list of descriptions and tags of the target rooms.
+    Args:
+        game_id : Integer, The game where the room should be
+        user_id : Integer, the player who tries to enter the room
+        room_tag : String identifying the room
 
-    Return value can be used by playgame.html template, to render the room.
+    Returns:
+        Dictionary object, which can be used by playgame.html to render the room.
     """
     
     if not can_enter(game_id, user_id, room_tag):
@@ -95,9 +113,9 @@ def enter_room(game_id, user_id, room_tag):
     update_current_room(game_id, user_id, room_tag)
     
     if has_visited(game_id, user_id, room_tag):
-        sql = "SELECT title, description, next_visits_description AS more_text FROM rooms WHERE game_id=:game_id AND tag=:room_tag"
+        sql = "SELECT title, description, endroom, next_visits_description AS more_text FROM rooms WHERE game_id=:game_id AND tag=:room_tag"
     else:
-        sql = "SELECT title, description, first_visit_description AS more_text FROM rooms WHERE game_id=:game_id AND tag=:room_tag"
+        sql = "SELECT title, description, endroom, first_visit_description AS more_text FROM rooms WHERE game_id=:game_id AND tag=:room_tag"
         mark_as_visited(game_id, user_id, room_tag)
     
     result = db.session.execute(sql, {"game_id": game_id, "room_tag": room_tag})
@@ -105,9 +123,9 @@ def enter_room(game_id, user_id, room_tag):
 
     return_object = {"game_id": game_id}
     if not room_texts:
-        return_object["title"] = "<not found>",
-        return_object["descriptions"] = ["<not found>"]
+        abort(404)
     else:
+        return_object["endroom"] = room_texts[0].endroom
         return_object["title"] = room_texts[0].title
         return_object["descriptions"] = [room_texts[0].description, room_texts[0].more_text]
         
@@ -124,8 +142,8 @@ def enter_room(game_id, user_id, room_tag):
 
 
 def all_visited_rooms(game_id, user_id):
-    ''' Return list of all rooms user has visited in this game
-    '''
+    """ Return list of all rooms user has visited in this game
+    """
     sql = "SELECT room_tag FROM visited_rooms WHERE game_id=:game_id AND player_id=:user_id"
     result = db.session.execute(sql, {"user_id": user_id, "game_id": game_id})
     rows = result.fetchall()
@@ -137,8 +155,8 @@ def all_visited_rooms(game_id, user_id):
     return visited_rooms
 
 def has_visited(game_id, user_id, room_tag):
-    ''' Check if the user has aleready visited in this room
-    '''
+    """ Check if the user has aleready visited in this room
+    """
     sql = "SELECT room_tag FROM visited_rooms WHERE game_id=:game_id AND player_id=:user_id AND room_tag=:room_tag"
     result = db.session.execute(sql, {"user_id": user_id,
                                       "game_id": game_id,
@@ -156,10 +174,10 @@ def is_startroom(game_id, room_tag):
     return True if start_room == room_tag else False
     
 def get_condition_results(game_id, user_id):
-    ''' Compare visited_rooms table to the the requirements of the conditions
+    """ Compare visited_rooms table to the the requirements of the conditions
     and based on them return description text for the room and list of
     choices user can make in this room
-    '''
+    """
     current_room = get_current_room(game_id, user_id)
 
     sql = "SELECT * FROM conditions WHERE game_id=:game_id AND room_tag=:current_room"
@@ -198,8 +216,8 @@ def get_condition_results(game_id, user_id):
     
     
 def can_enter(game_id, user_id, room_tag):
-    ''' Check if user is allowed to enter to the particular room
-    ''' 
+    """ Check if user is allowed to enter to the particular room
+    """ 
     if is_startroom(game_id, room_tag):
         return True
 
@@ -215,9 +233,9 @@ def can_enter(game_id, user_id, room_tag):
 
 
 def mark_as_visited(game_id, user_id, room_tag):
-    ''' As user enters first time to a room, the room is added to the visited
+    """ As user enters first time to a room, the room is added to the visited
     rooms of the user in this particular game
-    '''
+    """
     sql = "INSERT INTO visited_rooms (game_id, room_tag, player_id) VALUES (:game_id, :room_tag, :player_id)"
     try:
         db.session.execute(sql, {"game_id": game_id,
@@ -228,9 +246,9 @@ def mark_as_visited(game_id, user_id, room_tag):
         abort(409)
 
 def insert_current_room(game_id, user_id, room_tag):
-    ''' As user plays the game first time, and enters the starting room,
+    """ As user plays the game first time, and enters the starting room,
     new entry is created to the current_rooms table
-    '''
+    """
     sql = "INSERT INTO current_rooms (game_id, room_tag, player_id) VALUES (:game_id, :room_tag, :player_id)"
     try:
         db.session.execute(sql, {"game_id": game_id,
@@ -242,8 +260,8 @@ def insert_current_room(game_id, user_id, room_tag):
 
         
 def update_current_room(game_id, user_id, room_tag):
-    ''' User enters new room, and it is set as the new current_room
-    '''
+    """ User enters new room, and it is set as the new current_room
+    """
     sql = "UPDATE current_rooms SET room_tag=:room_tag WHERE player_id=:player_id AND game_id=:game_id"
     try:
         db.session.execute(sql, {"game_id": game_id,
@@ -254,8 +272,8 @@ def update_current_room(game_id, user_id, room_tag):
         abort(409)
     
 def reset_game(game_id, user_id):
-    ''' Remove user's visited room and current room data for the give game
-    '''
+    """ Remove user's visited room and current room data for the give game
+    """
     sql_remove_current_room = "DELETE FROM current_rooms WHERE player_id=:player_id AND game_id=:game_id"
     sql_remove_visited_rooms = "DELETE FROM visited_rooms WHERE player_id=:player_id AND game_id=:game_id"
 

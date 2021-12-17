@@ -14,7 +14,7 @@
   <form action="/playgame" method="POST">
   <div class="gametitle">{{ game.title }}</div>
   <div class="gamedesc">{{ game.description }}</div>
-    
+  <div class="gameowner">Dungeon Master: {{ game.owner }}</div> 
   <input type="hidden" name="game_id" value="{{ game.id }}">
   <div class="alignright">
     <input type="submit" name="submit_button" value="Enter the adventure!">
@@ -32,7 +32,7 @@
 </div>
 
 <div class="messageboard">
-  <h3>Share you thoughts and visions:</h3>
+  <h2>Share you thoughts and visions:</h2>
 
   <div class="messagelist">
     {% for message in messages %}
@@ -47,7 +47,7 @@
   
   <div class="newmessage">
     <form action="/message" method="POST">
-      <textarea name="body" rows="4" cols="50"></textarea>
+      <textarea class="messagebody" name="body"></textarea>
       <br>
       <input type="submit" value="Send new message">
     </form>

@@ -1,4 +1,3 @@
-
 body {
     margin: auto;
     max-width: 70em;
@@ -8,6 +7,18 @@ body {
 
     background: #114411;
 }
+
+input[type=submit] {
+    color: #FF0000;
+    font-family: "Impact", fantasy;    
+    background-color: #333333;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+}
+
 a:link {
    color: #FF4411;
 }
@@ -25,15 +36,15 @@ a:active {
 }
 
 div {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 div.gamelist {
     padding-top:20px;
-    background: #776666;
+    background: black;
 }
 
 
@@ -56,6 +67,7 @@ div.gametitle {
     padding: 5px;
     float: left;
     width: 15em;
+    color: white;
 }
 
 div.gamedesc {
@@ -68,6 +80,16 @@ div.gamedesc {
     color: red;
 }
 
+div.gameowner {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    float: left;
+    width: 15em;
+    color: white;
+}
+
 div.editown {
     margin-top: 40px;
     background: #883333;
@@ -77,13 +99,11 @@ div.editown {
 div.messageboard {
     text-align: center;
     padding-top:20px;
-    background: #776666;
-
+    background: black;
 }
 
 div.messagelist {
-    padding-top:20px;
-    background: #776666;
+    padding-top:5px;
 }
 
 div.message {
@@ -93,17 +113,25 @@ div.message {
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    color: white;
+    // border-style: solid;
 }
 
 p.messagebody {
     color: #00aa00;
     text-align: justify;
 }
-
+textarea.messagebody {
+    border: 5px solid white;
+    background: #333333;
+    color: #00aa00;
+    font-family: "Impact", fantasy;
+    width: 60%;
+    height: 100px;
+}
 
 div.newmessage {
     margin-top: 20px;
-    background: #333333;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -112,7 +140,7 @@ div.newmessage {
 
 div.useradmin {
     padding-top:20px;
-    background: #776666;
+    background: black;
 }
 
 div.user {
@@ -182,12 +210,14 @@ div.roommain {
 }
 
 div.roomleft {
+    margin-top: 0px;
     overflow: hidden;
     width: 35%;
     float: left;
 }
 
 div.roomright {
+    margin-top: 0px;
     overflow: hidden;
     width: 60%;
     float: right;    
@@ -233,4 +263,33 @@ div.newroom {
 
 .roommain textarea {
     width: 22em;
+}
+
+div.gameroom {
+    padding-top: 1px;
+    text-align: center;
+    padding-top:20px;
+    background: black;
+}
+
+div.gameroomtitle {
+    padding-top: 1px;
+    padding-bottom: 5px;
+    color: red;
+}
+
+div.gameroomdesc {
+    padding-top: 1px;
+    padding-bottom: 5px;
+    color: #00aa00;    
+}
+
+div.messagefilterword {
+    background: black;
+    padding-top: 5px;
+    padding-bottom: 5px;    
+}
+
+span.deleteword {
+    text-align: right;
 }

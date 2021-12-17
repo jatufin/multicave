@@ -6,7 +6,7 @@
 
 <h2>Game editing</h2>
 
-<div class="updategame">
+<div class="updategame" id="top">
 <form action="/updategame" method="POST">
   <input type="hidden" name="game_id" value="{{ game.main.id }}">
   <p>Game title: <input type="text" name="title" value="{{ game.main.title }}">
@@ -22,20 +22,20 @@
 
   <ul>
   {% for room in game.rooms %}
-  <li>{{ room.tag }}: {{ room.title }}</li>
+  <li><a href="#{{ room.tag }}">{{ room.tag }}: {{ room.title }}</a></li>
   {% endfor %}
   </ul>
   <div class="newroom">
     <form action="/newroom" method="POST">
       <input type="hidden" name="game_id" value="{{ game.main.id }}">
-      Tag for a new room: <input type="text" name="tag">
+      Tag for the new room: (max 10 chars) <input type="text" name="tag">
       <input type="submit" name="submit_button" value="Create room">
     </form>
   </div><!-- class="newroom" -->
   
 
   {% for room in game.rooms %}
-  <div class="roommain">
+  <div class="roommain" id="{{ room.tag }}">
 
     <div class="roomleft roommain">
       
@@ -44,7 +44,8 @@
 	<input type="hidden" name="tag" value="{{ room.tag }}">
 	
 	<h2>Room: {{ room.tag }}</h2>
-	Title: <input type="text" name="title" value="{{ room.title }}">
+	<p><a href="#top">Top of the page</a>
+	<p>Title: <input type="text" name="title" value="{{ room.title }}">
 	<p>Description:<br>
 	  <textarea name="description" rows=5>{{ room.description }}</textarea>
 	<p>

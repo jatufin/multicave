@@ -30,16 +30,19 @@
   {% endfor %}
   </div><!-- class="gameroomdesc" -->
 
-
+  {% if room.endroom == True %}
+  <h2>This is the end</h2>
+  {% else %}
   <div class="gameroomchoices">
-  {% for choice in room.choices %}
-  <form action="/playgame" method="POST">
-    <input type="hidden" name="target_room" value="{{ choice.target_room }}">
-    <input type="hidden" name="game_id" value="{{ room.game_id  }}">
-    <input type="submit" value="{{ choice.choice }}">
-  </form>
-  {% endfor %}
+    {% for choice in room.choices %}
+    <form action="/playgame" method="POST">
+      <input type="hidden" name="target_room" value="{{ choice.target_room }}">
+      <input type="hidden" name="game_id" value="{{ room.game_id  }}">
+      <input type="submit" value="{{ choice.choice }}">
+    </form>
+    {% endfor %}
   </div><!-- class="gameroomchoices" -->
+  {% endif %}
 </div><!-- class="gameroom" -->
 
 <div class="gameresetform">

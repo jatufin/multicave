@@ -17,7 +17,7 @@
   Admin: <input type="checkbox" name="adm_selection" value="adm" {{ "checked" if user.adm else "unchecked" }}>
   Locked: <input type="checkbox" name="locked_selection" value="locked" {{ "checked" if user.locked else "unchecked" }}>
   New Password: <input class="pwinput" type="password" name="password">
-  Confirm Password: <input class="pwinput" type="password" name="confirmpw">
+  Confirm password: <input class="pwinput" type="password" name="confirmpw">
   <span class="alignright">
   Delete: <input type="checkbox" name="delete_selection" value="delete" unchecked>
   <input type="submit" name="submit_button" value="Update">
@@ -26,9 +26,11 @@
 </div>
 {% endfor %}
 
-Create new user:
+
 <div class="newuser user">
-<form action="/createuser" method="POST">
+
+  <form action="/createuser" method="POST">
+  <h3>Create new user:<h3>
   Username: <input type="text" name="username">
   Password: <input class="pwinput" type="password" name="password">
   Confirm Password: <input class="pwinput" type="password" name="confirmpw">
