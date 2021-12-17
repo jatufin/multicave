@@ -8,11 +8,23 @@
 {% endblock %}
 
 {% block login %}
-<h2>Create a new user account</h2>
-<form action="/createuser" method="POST">
-  <p>Username: <input type="text" name="username"></p>
-  <p>Password: <input type="password" name="password"></p>
-  <p>Confirm password: <input type="password" name="confirmpw"></p>
-  <input type="submit" value="Sign up">
-</form>
+<div class="login">
+  <h2>Create a new user account</h2>
+  <form action="/createuser" method="POST">
+    <div>
+      <span class="alignleft">Username:</span>
+	<input class="alignright" type="text" name="username">
+    </div>
+    <div>
+    <span class="alignleft">Password:</span>
+      <input class="alignright" type="password" name="password">
+    </div>
+    <div>
+      <span class="alignleft">Confirm password:</span>
+      <input class="alignright" type="password" name="confirmpw">
+    </div>
+    <p><input type="submit" value="Sign up"></p>
+  </form>
+  <p>Back to the <a href="/">front page</a></p>
+</div><!-- class="login"> -->
 {% endblock %}
