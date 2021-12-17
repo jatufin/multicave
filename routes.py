@@ -12,20 +12,22 @@ from db import db
 
 @app.route("/")
 def index():
+    all_messages = messages.all_messages()
+    
+    public_games = gameplay.get_public_games()
+    games = {"public_games": public_games}
+    
     if _logged_in():
         user_id = session["user_id"]
-        all_messages = messages.all_messages()
-        public_games = gameplay.get_public_games()
+        
         own_games = gameplay.get_games(user_id)
         current_rooms = gameplay.get_all_current_rooms(user_id)
         
-        games = {"public_games": public_games,
-                 "own_games" : own_games,
-                 "current_rooms": current_rooms}
-                 
-        return render_template("index.html", messages=all_messages, games=games)
+        games["own_games"] =  own_games,
+        games["current_rooms"] : current_rooms
 
-    return render_template("index.html")
+    return render_template("index.html", messages=all_messages, games=games)
+
 
 
 @app.route("/login", methods=["POST"])

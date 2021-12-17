@@ -41,9 +41,9 @@
 	Message from <span class="username">{{ message.username }}</span> at {{ message.posting_date.strftime("%Y-%m-%d %H:%M:%S") }}</p>
       <p class="messagebody">
 	{{ message.body }}</p>
-    </div>
+    </div><!-- class="message" -->
     {% endfor %}
-  </div>
+  </div><!-- class="messagelist" -->
   
   <div class="newmessage">
     <form action="/message" method="POST">
@@ -51,8 +51,8 @@
       <br>
       <input type="submit" value="Send new message">
     </form>
-  </div>
-</div>
+  </div><!-- class="newmessage" -->
+</div><!-- class="messageboard" -->
 
 {% endblock %}
 
@@ -72,6 +72,38 @@
   </form>
   <p>A new user? <a href="/newuser">Sign up!</a></p>
 </div><!-- class="login"> -->
+
+<div class="gamelist">
+<h2>These games are waiting You:</h2>
+{% for game in games.public_games %}
+<div class="gameselect">
+  <form action="/playgame" method="POST">
+  <div class="gametitle">{{ game.title }}</div>
+  <div class="gamedesc">{{ game.description }}</div>
+  <div class="gameowner">Dungeon Master: {{ game.owner }}</div> 
+  <div class="alignright">
+  </div>
+  </form>
+</div>
+{% endfor %}
+</div><!-- class="gamelist" -->
+{% if messages %}
+<div class="messageboard">
+  <h2>Thoughts and visions:</h2>
+
+  <div class="messagelist">
+    {% for message in messages %}
+    <div class="message">
+      <p class="messageheader">
+	Message from <span class="username">{{ message.username }}</span> at {{ message.posting_date.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+      <p class="messagebody">
+	{{ message.body }}</p>
+    </div><!-- class="message" -->
+    {% endfor %}
+  </div><!-- class="messagelist" -->
+</div><!-- class="messageboard" -->
+{% endif %}
+
 {% endblock %}
 
 

@@ -1,44 +1,72 @@
 # Multi Cave - Write and share your own adventure!
 
 ## The status of the project
-* The application is available on heroku server
-* Normal user can sign up new account
-* There is administrative account for testing purposes:
-Username: admin
-Password: password
-* Whole functionality has been implemented
-* Refining the user interface has begun
+* Fully functionin application can be downloaded from Github
+* A demo application is available on heroku server: https://multicave.herokuapp.com/
 
-##
-Deployed to Heroku:
-https://multicave.herokuapp.com/
+## Installation
 
+### Initializing the database
+
+Database tables can be created by running following command in the project directory:
+
+```
+$ psql < schema.sql
+```
+
+This creates all the tables, buta they are empty. You can sign in a new user with regular privileges, but if you want to give an user admininistrative right in this phase, it has to be done manually directly to the database. For username Rudolf this would be:
+
+```
+$ psql
+dbname=# UPDATE users SET adm='t' WHERE username='Rudolf';
+```
+
+If you rather preoccupy the database with default users and an example game, instead of ```schema.sql``` whole database dump ```pg_database_dump.sql``` should be inserted:
+
+```
+$ psql < pg_database_dump.sql
+```
+
+Now two user accounts are allreay installed:
+
+Administrative account: _admin_
+Password: _admin_
+
+Normal user account: _Rudolf_
+Passowrd: _pa55word_
+
+You should immeadiately after installation log in as _admin_ and change these passwords.
+
+
+
+## Description
 A web site, where users can create, share and play adventure games. User's can also comment and discuss on a message board.
 
-## Different user accounts
+### Different user accounts
 System will have three different types of users: guests, normal users and administrators:
 
-### Guest
-Guest user is anyone, who opens the web page, but is not signed in.
-
-A guest can:
-* See a description about the service.
-* See the message board.
-* Create an user account to become normal user.
-
-### Normal user
-A visitor can create a new user providing a user name and password. The username will be used as player's name in the adventures user plays. All normal users can play other users' published games. Adventures are single user games, but all users game situations are saved in the database, so they can continue playing later from where they left. User can decide, if a game she has created is public or not. The game is visible to other users only, if it has been published. User can advertise, comment games and discuss in a message board.
+#### Guest
+A visitor who opens the main page, can see a lit of all the published games, and messages on the messageboard. Guest can't play or send messages.
 
 Operations an user can do:
-* Change password.
+* Read messages
+* Read information aboy published game titles
+* Sign-up to create an user account
+
+#### Normal user
+A visitor can create a new user providing a user name and password. The username will be used as player's name in the adventures user plays. All normal users can play other users' published games. Adventures are single user games, but all users game situations are saved in the database, so they can continue playing later from where they left. User can decide, if a game she has created is public or not. The game is visible to other users only, if it has been published. User can advertise, comment games and discuss in a message board.
+
+Message board has a filter, which looks up banned words on subscribed messages. If a message consists banned words, it will not be saved.
+
+Operations an user can do:
 * Play games other users have published
-* Create a new game, and edit it.
-* Publish the game she has created.
-* Read message board.
-* Write messages to the message board.
+* Create a new game and edit it.
+* An user can play their own game without publishing it.
+* Publish the game they has created, so other users can play it.
+* Read and write to the message board.
 
 
-### Administrator
+#### Administrator
 Administrator is a normal user, who has been granted administrative privileges in addition to normal user right. Administrator can manage user accounts and all the games in the database.
 
 Operations an administrator can do:
@@ -49,10 +77,8 @@ Operations an administrator can do:
 * Change user's password.
 * Add administrator rights to an user.
 * Remove administrator from an user.
-* Delete any game, published or not.
-* Edit all games.
-* Change the owner of a game.
 * Delete messages from the message board.
+* Add and remove words from the message board filter.
 
 ## Games
 Games are classical text adventures, where users can move between rooms, and do simple things. The idea is to be more like "choose your own adventure" type book, than to have complex game logic.
