@@ -52,6 +52,7 @@ def logout():
 @app.route("/newuser")
 def newuser():
     # _abort_if_not_logged_in(401)
+
     return render_template("newuser.html")
 
     
@@ -74,6 +75,36 @@ def createuser():
     return redirect("/")
 
 
+@app.route("/pwreset")
+def pwreset():
+    _abort_if_not_logged_in(403)
+
+    return render_template("pwreset.html")
+
+
+@app.route("/changepw", methods=["POST"])
+def changepw():
+    _abort_if_not_logged_in(403)
+    _abort_if_invalid_form(request.form)
+
+    username = session["username"]
+    
+    oldpassword = request.form["oldpassword"]
+    password = request.form["password"]
+    confirmpw = request.form["confirmpw"]
+
+    if password != confirmpw:
+        abort(401)
+
+    if not users.change_password(username, oldpassword, password):
+        abort(403)
+
+    if _is_admin():
+        return redirect("/adminusers")
+
+    return redirect("/")
+
+    
 @app.route("/message", methods=["POST"])
 def message():
     ''' Write new message to the message board '''

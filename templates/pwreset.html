@@ -1,0 +1,27 @@
+{% extends "master.html" %}
+
+{% block title %}Create new user{% endblock %}
+
+
+
+{% block content %}
+<div class="login">
+  <h2>Change password</h2>
+  <form action="/changepw" method="POST">
+    <div>
+      <span class="alignleft">Old password:</span>
+      <input class="alignright" type="password" name="oldpassword">
+    </div>
+    <div>
+    <span class="alignleft">New password:</span>
+      <input class="alignright" type="password" name="password">
+    </div>
+    <div>
+      <span class="alignleft">Confirm new password:</span>
+      <input class="alignright" type="password" name="confirmpw">
+    </div>
+    <p><input type="submit" value="Change password"></p>
+  </form>
+  <p>Back to the <a href="/">front page</a></p>
+</div><!-- class="login"> -->
+{% endblock %}

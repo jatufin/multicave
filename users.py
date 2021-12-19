@@ -91,6 +91,24 @@ def set_password(username, password):
     except:
         abort(409)
 
+def change_password(username, oldpassword, password):
+    sql = "SELECT password, locked FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username": username})
+    user = result.fetchone()
+
+    if not user:
+        return False
+
+    if user.locked:
+        return False
+
+    hash_value = user.password
+    if not check_password_hash(hash_value, oldpassword):
+        return False
+
+    set_password(username, password)
+    return True
+    
 def deleteuser(username):
     sql = "DELETE FROM users WHERE username=:username"
     try:

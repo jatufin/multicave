@@ -64,6 +64,7 @@ Operations an user can do:
 * An user can play their own game without publishing it.
 * Publish the game they has created, so other users can play it.
 * Read and write to the message board.
+* Change password
 
 
 #### Administrator
