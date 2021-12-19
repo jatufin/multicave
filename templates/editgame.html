@@ -7,14 +7,15 @@
 <h2>Game editing</h2>
 
 <div class="updategame" id="top">
-<form action="/updategame" method="POST">
-  <input type="hidden" name="game_id" value="{{ game.main.id }}">
-  <p>Game title: <input type="text" name="title" value="{{ game.main.title }}">
-  <p>Description: <textarea name="description" rows="5" cols="50">{{ game.main.description }}</textarea>
-  <p>Public: <input type="checkbox" name="published_selection" value="published" {{ "checked" if game.main.published else "unchecked" }}>  
-  <p>The game starts in room: <input type="text" name="start_room" value="{{ game.main.start_room }}">
-  <p><input type="submit" name="submit_button" value="Update the game" >
-</form>
+  <form action="/updategame" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="hidden" name="game_id" value="{{ game.main.id }}">
+    <p>Game title: <input type="text" name="title" value="{{ game.main.title }}">
+    <p>Description: <textarea name="description" rows="5" cols="50">{{ game.main.description }}</textarea>
+    <p>Public: <input type="checkbox" name="published_selection" value="published" {{ "checked" if game.main.published else "unchecked" }}>  
+    <p>The game starts in room: <input type="text" name="start_room" value="{{ game.main.start_room }}">
+    <p><input type="submit" name="submit_button" value="Update the game" >
+  </form>
 </div><!-- class="updategame" -->
 
 <div class="roomlist">
@@ -27,6 +28,7 @@
   </ul>
   <div class="newroom">
     <form action="/newroom" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
       <input type="hidden" name="game_id" value="{{ game.main.id }}">
       Tag for the new room: (max 10 chars) <input type="text" name="tag">
       <input type="submit" name="submit_button" value="Create room">
@@ -40,8 +42,9 @@
     <div class="roomleft roommain">
       
       <form action="/updateroom" method="POST">
+	<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 	<input type="hidden" name="game_id" value="{{ room.game_id }}">
-	<input type="hidden" name="tag" value="{{ room.tag }}">
+	<input type="hidden" name="room_tag" value="{{ room.tag }}">
 	
 	<h2>Room: {{ room.tag }}</h2>
 	<p><a href="#top">Top of the page</a>
@@ -59,6 +62,7 @@
       </form>
 
       <form action="/deleteroom" method="POST">
+	<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 	<input type="hidden" name="game_id" value="{{ room.game_id }}">
 	<input type="hidden" name="tag" value="{{ room.tag }}">
 	Delete:<input type="checkbox" name="confirmdelete_selection" unchecked>
@@ -73,6 +77,7 @@
       <div class="newcondition roommain">
 	<p>Choices and conditions in the room {{ room.tag }}:
 	  <form action="/newcondition" method="POST">
+	    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 	    <input type="hidden" name="game_id" value="{{ room.game_id }}">
 	    <input type="hidden" name="room_tag" value="{{ room.tag }}">
 	    <input type="submit" name="submit_button" value="Create new condition">
@@ -88,9 +93,10 @@
 	<div class="condition roommain">
 	  
 	  <form action="/updatecondition" method="POST">
+	    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 	    <input type="hidden" name="id" value="{{ condition.id }}">
 	    <input type="hidden" name="game_id" value="{{ condition.game_id }}">
-	    <input type="hidden" name="tag" value="{{ condition.room_tag }}">
+	    <input type="hidden" name="room_tag" value="{{ condition.room_tag }}">
 	    <h3>Choice: {{ condition.all_visited_choice }} target: {{ condition.all_visited_target }}</h3>
 	    If player hasn't visited all required rooms, show:
 	    <br>
@@ -116,6 +122,7 @@
 	      {% if condition_room.condition_id == condition.id %}
 	      <div class="conditionroom roommain">
 		<form action="/removeconditionroom" method="POST">
+		  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 		  <input type="hidden" name="condition_id" value="{{ condition_room.condition_id }}">
 		  <input type="hidden" name="game_id" value="{{ condition_room.game_id }}">
 		  <input type="text" name="room_tag" value="{{ condition_room.room_tag }}">
@@ -126,6 +133,7 @@
 	      {% endfor %}
 	  
 	      <form action="/newconditionroom" method="POST">
+		<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 		<input type="hidden" name="condition_id" value="{{ condition.id }}">
 		<input type="hidden" name="game_id" value="{{ room.game_id }}">
 		<span class="alignright">

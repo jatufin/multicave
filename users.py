@@ -1,6 +1,7 @@
 from flask import session, abort
 from db import db
 import random
+import secrets
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -20,6 +21,7 @@ def login(username, password):
     if not check_password_hash(hash_value, password):
         return False
 
+    session["csrf_token"] = secrets.token_hex(16)
     session["logged_in"] = True
     session["username"] = username
     session["user_id"] = user.id
@@ -119,6 +121,7 @@ def deleteuser(username):
     
     
 def logout():
+    _clear_session("csrf_token")
     _clear_session("logged_in")
     _clear_session("username")
     _clear_session("locked")

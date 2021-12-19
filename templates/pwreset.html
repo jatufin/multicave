@@ -8,6 +8,8 @@
 <div class="login">
   <h2>Change password</h2>
   <form action="/changepw" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <div>
       <span class="alignleft">Old password:</span>
       <input class="alignright" type="password" name="oldpassword">

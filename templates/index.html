@@ -12,13 +12,14 @@
 {% for game in games.public_games %}
 <div class="gameselect">
   <form action="/playgame" method="POST">
-  <div class="gametitle">{{ game.title }}</div>
-  <div class="gamedesc">{{ game.description }}</div>
-  <div class="gameowner">Dungeon Master: {{ game.owner }}</div> 
-  <input type="hidden" name="game_id" value="{{ game.id }}">
-  <div class="alignright">
-    <input type="submit" name="submit_button" value="Enter the adventure!">
-  </div>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <div class="gametitle">{{ game.title }}</div>
+    <div class="gamedesc">{{ game.description }}</div>
+    <div class="gameowner">Dungeon Master: {{ game.owner }}</div> 
+    <input type="hidden" name="game_id" value="{{ game.id }}">
+    <div class="alignright">
+      <input type="submit" name="submit_button" value="Enter the adventure!">
+    </div>
   </form>
   {% if game.game_id in games.current_rooms %}
   You have already started this game
@@ -47,6 +48,7 @@
   
   <div class="newmessage">
     <form action="/message" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
       <textarea class="messagebody" name="body"></textarea>
       <br>
       <input type="submit" value="Send new message">
@@ -77,13 +79,9 @@
 <h2>These games are waiting You:</h2>
 {% for game in games.public_games %}
 <div class="gameselect">
-  <form action="/playgame" method="POST">
   <div class="gametitle">{{ game.title }}</div>
   <div class="gamedesc">{{ game.description }}</div>
   <div class="gameowner">Dungeon Master: {{ game.owner }}</div> 
-  <div class="alignright">
-  </div>
-  </form>
 </div>
 {% endfor %}
 </div><!-- class="gamelist" -->

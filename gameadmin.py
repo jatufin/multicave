@@ -62,7 +62,7 @@ def update_room(form):
     if not is_owner(game_id, user_id):
         abort(401)
 
-    tag = form["tag"]
+    tag = form["room_tag"]
     title = form["title"]
     description = form["description"]
     first_visit_description = form["first_visit_description"]

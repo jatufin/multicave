@@ -187,7 +187,7 @@ def updatewords():
 def edit():
     ''' Edit your own adventure '''
     _abort_if_not_logged_in(401)
-    _abort_if_invalid_form(request.form)
+    # _abort_if_invalid_form(request.form)
 
     user_id = session["user_id"]
     games = gameplay.get_games(user_id, create_if_not_found=True)
@@ -205,8 +205,7 @@ def updategame():
 
     gameadmin.update_game(form=request.form)
 
-    if "tag" in request.form:
-        tag = request.form["tag"]
+    tag = _get_room_tag(request.form)                            
         
     return redirect(f"/editgame#{tag}")
 
@@ -218,8 +217,7 @@ def newroom():
 
     gameadmin.new_room(form=request.form)
 
-    if "tag" in request.form:
-        tag = request.form["tag"]
+    tag = _get_room_tag(request.form)                        
         
     return redirect(f"/editgame#{tag}")
 
@@ -230,8 +228,7 @@ def updateroom():
 
     gameadmin.update_room(form=request.form)
 
-    if "tag" in request.form:
-        tag = request.form["tag"]
+    tag = _get_room_tag(request.form)                    
         
     return redirect(f"/editgame#{tag}")
 
@@ -252,8 +249,7 @@ def newcondition():
 
     gameadmin.new_condition(form=request.form)
 
-    if "room_tag" in request.form:
-        tag = request.form["room_tag"]
+    tag = _get_room_tag(request.form)                
         
     return redirect(f"/editgame#{tag}")
 
@@ -270,8 +266,7 @@ def updatecondition():
     elif submit_action == "Delete":
         gameadmin.delete_condition(form=request.form)
 
-    if "tag" in request.form:
-        tag = request.form["tag"]
+    tag = _get_room_tag(request.form)            
         
     return redirect(f"/editgame#{tag}")        
 
@@ -283,8 +278,7 @@ def newconditionroom():
 
     gameadmin.new_conditionroom(form=request.form)
 
-    if "room_tag" in request.form:
-        tag = request.form["room_tag"]
+    tag = _get_room_tag(request.form)    
         
     return redirect(f"/editgame#{tag}")
 
@@ -296,8 +290,7 @@ def removeconditionroom():
 
     gameadmin.remove_conditionroom(form=request.form)
 
-    if "room_tag" in request.form:
-        tag = request.form["room_tag"]
+    tag = _get_room_tag(request.form)
         
     return redirect(f"/editgame#{tag}")
 
@@ -323,10 +316,25 @@ def _is_admin():
 
 
 def _abort_if_invalid_form(form):
+    if _logged_in():
+        form_token = form["csrf_token"]
+        session_token = session["csrf_token"]
+        if form_token != session_token:
+            abort(403)
+        
     if _fields_too_long(form):
         abort(413)
 
         
+def _get_room_tag(form):
+    if "room_tag" in form:
+        tag = form["room_tag"]
+    else:
+        tag = ""
+
+    return tag
+
+
 def _fields_too_long(form):
     """ Goes over all fields in a form, and returns False if one exceeds
     the limit value

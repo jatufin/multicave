@@ -9,6 +9,7 @@
 
   <div class="gameresetconfirmform">
     <form action="/playgame" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">      
       <input type="hidden" name="game_id" value="{{ game_id }}">
       <input type="hidden" name="resetconfirm" value="">
       <input type="submit" value="Really">
@@ -37,6 +38,7 @@
     {% for choice in room.choices %}
     {% if not choice.choice == '' %}
     <form action="/playgame" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">      
       <input type="hidden" name="target_room" value="{{ choice.target_room }}">
       <input type="hidden" name="game_id" value="{{ room.game_id  }}">
       <input type="submit" class="choice" value="{{ choice.choice }}">
@@ -49,6 +51,7 @@
 
 <div class="gameresetform">
   <form action="/playgame" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="hidden" name="game_id" value="{{ room.game_id  }}">
     <input type="hidden" name="gamereset" value="YES">
     <input type="submit" value="Start over from beginning">

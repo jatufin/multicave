@@ -68,7 +68,7 @@ Operations an user can do:
 
 
 #### Administrator
-Administrator is a normal user, who has been granted administrative privileges in addition to normal user right. Administrator can manage user accounts and all the games in the database.
+Administrator is a normal user, who has been granted administrative privileges in addition to normal user right. Administrator can manage user accounts and the banned words list.
 
 Operations an administrator can do:
 * Delete an user.
@@ -129,15 +129,16 @@ Message board is a simple single thread board, which allows only text content.
 ## Security
 
 To prevent hacking and abuse following guidelines will be followed:
+* All form inputs are managed through Flask routes to prevent injections
+* Secret session token is used to prevent CSRF attacks
+* All route rutines check for login status and prssibly admin right
+* All SQL inputs are made through variables, to prevent injections
 * All inputs will be filtered to be SQL safe before any processing.
 * Server side validation of all inputs.
-* Size limits to prevent denial of service attacks:
-  * Games can have only maximum number of rooms.
-  * Limits to text sizes and variable numbers in games.
-* Single user can create and publish only limited number of games in time.
+* All input forms are validated for too big inputs
+* All text columns in database user VARCHAR instead of TEXT to limit size
 * The message board will have limitations:
-  * Single user can publish only limited number of messages in time.
-  * Message length is limited.
+  * All messages are filtered for banned words
 
 To perevent cheating in the games:
 * No browser side operations will be trust, every input is checked server side.

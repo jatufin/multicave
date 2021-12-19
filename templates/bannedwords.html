@@ -8,6 +8,7 @@
 
 
 <form action="/updatewords" method="POST">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
   {% for word in word_list %}
   <div class="messagefilterword">
     <p>{{ word.word }} <span class="alignright">Delete: <input type="checkbox" name="banned" value="{{ word.word }}" value="wrod" unchecked></span>

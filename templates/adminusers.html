@@ -10,19 +10,20 @@
 {% for user in user_list %}
 
 <div class="user">
-<form action="/updateuser" method="POST">
-  User: <span class="username">{{ user.username }}</span>
-  ID: <span class="userid">{{ user.id }}</span>
-  <input type="hidden" name="username" value="{{ user.username }}">
-  Admin: <input type="checkbox" name="adm_selection" value="adm" {{ "checked" if user.adm else "unchecked" }}>
-  Locked: <input type="checkbox" name="locked_selection" value="locked" {{ "checked" if user.locked else "unchecked" }}>
-  New Password: <input class="pwinput" type="password" name="password">
-  Confirm password: <input class="pwinput" type="password" name="confirmpw">
-  <span class="alignright">
-  Delete: <input type="checkbox" name="delete_selection" value="delete" unchecked>
-  <input type="submit" name="submit_button" value="Update">
-  <span>
-</form>
+  <form action="/updateuser" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    User: <span class="username">{{ user.username }}</span>
+    ID: <span class="userid">{{ user.id }}</span>
+    <input type="hidden" name="username" value="{{ user.username }}">
+    Admin: <input type="checkbox" name="adm_selection" value="adm" {{ "checked" if user.adm else "unchecked" }}>
+    Locked: <input type="checkbox" name="locked_selection" value="locked" {{ "checked" if user.locked else "unchecked" }}>
+    New Password: <input class="pwinput" type="password" name="password">
+    Confirm password: <input class="pwinput" type="password" name="confirmpw">
+    <span class="alignright">
+      Delete: <input type="checkbox" name="delete_selection" value="delete" unchecked>
+      <input type="submit" name="submit_button" value="Update">
+      <span>
+  </form>
 </div>
 {% endfor %}
 
