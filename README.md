@@ -54,7 +54,7 @@ You should immeadiately after installation log in as _admin_ and change these pa
 
 In the _documentation_ folder there are some helpful diagrams:
 * [ER diagram of the database](https://github.com/jatufin/multicave/blob/master/documentation/ER-diagram.svg)
-* [Flowcharts](https://github.com/jatufin/multicave/blob/master/documentation/flowcharts.pdf).
+* [Flowcharts](https://github.com/jatufin/multicave/blob/master/documentation/flowcharts.pdf)
 
 For the game structure function, the _Help_ section in the system itself is most recommended. However, the map of the example can be found from the _static_ folder:
 * [Flowcharts](https://github.com/jatufin/multicave/blob/master/static/example_game.svg)
@@ -68,15 +68,15 @@ A web site, where users can create, share and play adventure games. User's can a
 System will have three different types of users: guests, normal users and administrators:
 
 #### Guest
-A visitor who opens the main page, can see a lit of all the published games, and messages on the messageboard. Guest can't play or send messages.
+A visitor who opens the main page, can see a list of all the published games, and messages on the messageboard. Guest can't enter any of the games, or send messages to the board.
 
-Operations an user can do:
+Operations an guest can do:
 * Read messages
-* Read information aboy published game titles
-* Sign-up to create an user account
+* Read game titles, descriptions and publishers
+* Sign-up to create a new user account
 
 #### Normal user
-A visitor can create a new user providing a user name and password. The username will be used as player's name in the adventures user plays. All normal users can play other users' published games. Adventures are single user games, but all users game situations are saved in the database, so they can continue playing later from where they left. User can decide, if a game she has created is public or not. The game is visible to other users only, if it has been published. User can advertise, comment games and discuss in a message board.
+A visitor can create a new user providing a user name and password. The username will be used as player's name in the adventures. All normal users can play the games other users have published. Adventures are single user games and all users' game situations are saved in the database, so they can continue playing later from where they left. User can decide, if a game she has created is public or not. The game is visible to other users only, if it has been published. User can advertise, comment games and discuss in a message board.
 
 Message board has a filter, which looks up banned words on subscribed messages. If a message consists banned words, it will not be saved.
 
