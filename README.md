@@ -13,6 +13,26 @@ Clone the project from GitHub:
 $ git clone https://github.com/jatufin/multicave
 ```
 
+The application uses _PostgreSQL_, _Python 3_, _Flask_ and _SQLAlchemy_, which should be installed and environment set up:
+* [PostgreSQL](https://www.postgresql.org)
+* [Python 3](https://www.python.org/)
+* [Flask](https://flask.palletsprojects.com/)
+* [SQLAlchemy](https://www.sqlalchemy.org/)
+
+Flask environment can usually be build by running in the project folder:
+```
+$ python3 -m venv venv
+$ . venv/bin/activate
+$ pip install Flask
+```
+
+And SQL Alchemy libraries:
+```
+$ pip install flask-sqlalchemy
+$ pip install pyscopg2
+
+```
+
 The session management requires, that an evironment variable is set for 16 byte secure key. The variable should contain the key in hexadecimal format:
 ```
 SECURE_KEY
