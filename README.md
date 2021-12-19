@@ -27,13 +27,14 @@ If you rather preoccupy the database with default users and an example game, ins
 $ psql < pg_database_dump.sql
 ```
 
-Now two user accounts are allreay installed:
+Now two default accounts are allreay installed. Adminstrator:
 
-Administrative account: _admin_
-Password: _admin_
+* Administrative account: _admin_
+* Password: _admin_
 
-Normal user account: _Rudolf_
-Passowrd: _pa55word_
+And normal user:
+* Normal user account: _Rudolf_
+* Passowrd: _pa55word_
 
 You should immeadiately after installation log in as _admin_ and change these passwords.
 
