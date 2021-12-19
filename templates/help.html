@@ -1,0 +1,81 @@
+{% extends "master.html" %}
+
+{% block title %}Help{% endblock %}
+
+{% block content %}
+
+<div class="help">
+  
+<h1>Creating your own adventure</h2>
+
+The logic of game building might look complex, but is straigtworward. First of all, game contains <i>rooms</i> and each room might contain <i>conditions</i>. Each player has <i>the current room</i>, where they are, and the game remembers all the rooms the player has allready been, they are called <i>visited rooms</i>.
+
+For instance, if the player is front of a locked door, which needs a key to be opened, there exists a condition, which requires they must visit some particula room or rooms, before the action, opening the door, is possible.
+
+<div class="helpimage">
+  <img alt="Game screenshot of a locked gate which needs two keys" src="/static/help_gate_locked.png">
+  <span>This gate has two locks, and the player has key for neither.</span>
+</div><!-- class="helpimage" -->
+
+<p>There are two conditions in this room, which don't have any requirements for some rooms to be visited before, to be active: _Crawl into the hole_ and _Go Back to the beast_. Most conditions are like this; They simply give opportunity to move from room to room.</p>
+
+These two properties of conditions create the buttons players can choose:
+<ul>
+  <li><i>All visited choice</i> the text vhich appears in the button.</li>
+  <li><i>All visited target</i> the identifier (<i>tag</i>) of the room, where this choice leads to.</li>
+</ul>
+
+
+<p>In this particular Gate room there are in fact two aditional conditions, which are only used to display information: _You don't have the blue key_ and _You don't have the red key_.</p>
+
+<div class="helpimage">
+  <img alt="Game screenshot of the Smaragd Chamber" src="/static/help_smaragd_chamber.png">
+  <span>So the player crawls to the hole and finds the key!</span>
+</div><!-- class="helpimage" -->
+The game says the player now has this red key, but in reality game doesn't keep track of the items player might have, it only remembers if the player has visited in some room or not.
+
+<div class="helpimage">
+  <img alt="Game screenshot of the Gate with player having the red key" src="/static/help_gate_half_locked.png">
+  <span>And when they came back, one of the locks can be opened.</span>
+</div><!-- class="helpimage" -->
+For each room there are three different descriptions:
+
+<ul>
+  <li><i>Description</i>, which is allways shown</li>
+  <li><i>First Visit Description</i>, which is allways shown</li>
+  <li><i>Next Visits Description</i>, which is shown if the player returns to a room they've already been.</li>
+</ul>
+
+Notice how the text <i>There is a gate...</i> has changed to <i>The Gate and the locks still loom ahead.</i>
+
+Similarly conditions have descriptions:
+<ul>
+  <li><i>All visited</i> text, which is shown if the player has visited all the required rooms</li>
+  <li><i>Not all visited</i> is shown if the player has not</li>
+</ul>
+
+In the above image the player has visited the Smaragd Chamber, so the <i>All visited</i> text is displayed for the condition: <i>The smaragd key fits in the red lock.</i>
+
+If the player continues the adventure and manages to find the Blue Key, they'll find the gate in this condition:
+
+<div class="helpimage">
+  <img alt="Game screenshot of the Gate with player having both keys" src="/static/help_gate_open.png">
+  <span>With both keys in their hands, the player can open the gate and go forward.</span>
+</div><!-- class="helpimage" -->
+
+<p>You might have noticed there's some Monster mentioned in the text. That's because Rudolf, who created the adventure was more thrilled than thoughtfull when writing it down. Some clever use of conditions might be needed to avoid incosistencies.</p>
+
+<p>Below is an image from the view of the game editor in the Room02 of the Rudolf's example game. You can see, that conditions <i>Go East</i> and <i>Go South</i> don't have any requirements, so they are displayed all the time the player is in Room02. Choice <i>Go West</i> however depends player visiting Room03, and before that only text <i>To the West there is a locked door.</i> will be displayed.</p>
+
+<p>Compare it and your gaming experience to the chart Rudolf kindly created for you to sort things up: <a href="/static/example_game.svg">Map of the example game</a></p>
+
+
+<div class="helpimage">
+  <img alt="Screenshot from the game editor" src="/static/editor_room2_screenshot.png">
+  <span>Room02 has three conditions, but only one needs any visiting in other rooms.</span>
+</div><!-- class="helpimage" -->
+
+
+</div><!-- class="help" -->
+
+{% endblock %}

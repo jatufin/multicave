@@ -312,3 +312,20 @@ div.messagefilterword {
 span.deleteword {
     text-align: right;
 }
+
+.help {
+    width: 80%;
+}
+.helpimage {
+    display: table;
+}
+
+.helpimage > img {
+    display: table-row;
+}
+
+.helpimage > span {
+    display: table-row;
+    font-style: italic;
+    text-align: center;
+}

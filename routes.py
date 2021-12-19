@@ -74,6 +74,11 @@ def createuser():
 
     return redirect("/")
 
+@app.route("/help")
+def help():
+    _abort_if_not_logged_in(403)
+
+    return render_template("help.html")
 
 @app.route("/pwreset")
 def pwreset():
