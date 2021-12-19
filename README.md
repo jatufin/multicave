@@ -40,7 +40,7 @@ You should immeadiately after installation log in as _admin_ and change these pa
 
 ## Architecture
 
-In the _documentation_ folder there are [ER diagram of the database](https://github.com/jatufin/multicave/blob/master/documentation/ER-diagram.svg) [Flowcharts](https://github.com/jatufin/multicave/blob/master/documentation/flowcharts.pdf).
+In the _documentation_ folder there are [ER diagram of the database](https://github.com/jatufin/multicave/blob/master/documentation/ER-diagram.svg) and [Flowcharts](https://github.com/jatufin/multicave/blob/master/documentation/flowcharts.pdf).
 
 For the game function, the _Help_ section in the system itself is most recommended. However, the map of the example can be found from the static folder [Flowcharts](https://github.com/jatufin/multicave/blob/master/documentation/example_game.svg).
 
