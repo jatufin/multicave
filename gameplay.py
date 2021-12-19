@@ -39,6 +39,11 @@ def get_games(user_id, create_if_not_found=False):
 
     
 def create_game(user_id):
+    """Create a blank new game
+
+    Args:
+        user_id: Integer
+    """
     sql = "INSERT INTO games (owner_id) VALUES (:owner_id)"
     try:
         db.session.execute(sql, {"owner_id": user_id})

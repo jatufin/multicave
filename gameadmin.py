@@ -3,6 +3,15 @@ from db import db
 
 
 def get_game(game):
+    """Returns the game
+
+    Args:
+        Dictionary object provided via route
+
+    Returns:
+        Dictionary object which has all the rooms, conditions and condition
+        rooms of this game
+    """
     game_id = game.id
     rooms = get_all_rooms(game_id)
     conditions = get_conditions(game_id)
@@ -15,6 +24,15 @@ def get_game(game):
 
 
 def get_room(game_id, tag):
+    """Returns the room in the game which has the given tag
+
+    Args:
+       game_id : Integer
+       tag : Room tag string
+
+    Returns:
+        Dictionary object containing the room fields
+    """
     sql = "SELECT * FROM rooms WHERE game_id=:game_id AND tag=:tag"
     result = db.session.execute(sql, {"game_id": game_id, "tag": tag})
     rooms = result.fetchall()
@@ -26,6 +44,14 @@ def get_room(game_id, tag):
 
 
 def get_all_rooms(game_id):
+    """Returns all rooms in the game
+
+    Args:
+       game_id : Integer
+
+    Returns:
+        List of strings containin room tags
+    """
     sql = "SELECT * FROM rooms WHERE game_id=:game_id ORDER BY tag"
     result = db.session.execute(sql, {"game_id": game_id})
     rooms = result.fetchall()
@@ -34,6 +60,11 @@ def get_all_rooms(game_id):
 
 
 def new_room(form):
+    """Create a new room specified in the form.
+    
+    Args:
+        form : HTML form containing required fields 
+    """    
     user_id = session["user_id"]
     game_id = form["game_id"]
     tag = form["tag"]
@@ -56,6 +87,11 @@ def new_room(form):
         
         
 def update_room(form):
+    """Update the room specified in the form.
+    
+    Args:
+        form : HTML form containing required fields 
+    """   
     user_id = session["user_id"]
     game_id = form["game_id"]
 
@@ -85,6 +121,11 @@ def update_room(form):
         abort(409)    
 
 def delete_room(form):
+    """Delete the room specified in the form.
+    
+    Args:
+        form : HTML form containing required fields 
+    """
     user_id = session["user_id"]
     game_id = form["game_id"]
     room_tag = form["tag"]
@@ -116,12 +157,13 @@ def delete_room(form):
         db.session.commit()
 
     except:
-        print("Delete meni pieleen")
         abort(409)
     
 
     
 def get_conditions(game_id):
+    """Returns all conitions in this game
+    """
     sql = "SELECT * FROM conditions WHERE game_id=:game_id"
     result = db.session.execute(sql, {"game_id": game_id})
     conditions = result.fetchall()
@@ -130,6 +172,14 @@ def get_conditions(game_id):
 
 
 def get_condition_rooms(game_id):
+    """Get all the rooms connected to any conditions in the whole game
+
+    Args:
+        game_id : Integer
+
+    Returns:
+        List of room tag strings
+    """
     sql = "SELECT * FROM condition_rooms WHERE game_id=:game_id"
     result = db.session.execute(sql, {"game_id": game_id})
     condition_rooms = result.fetchall()
@@ -138,6 +188,8 @@ def get_condition_rooms(game_id):
 
 
 def new_condition(form):
+    """Create new condition to the room
+    """
     user_id = session["user_id"]
     game_id = form["game_id"]
 
@@ -155,6 +207,9 @@ def new_condition(form):
 
         
 def update_condition(form):
+    """Update a condition ain a room
+
+    """
     user_id = session["user_id"]
     game_id = form["game_id"]
 
@@ -182,6 +237,8 @@ def update_condition(form):
 
        
 def delete_condition(form):
+    """Delete a condition from a room
+    """
     user_id = session["user_id"]
     game_id = form["game_id"]
 
@@ -201,6 +258,8 @@ def delete_condition(form):
     
 
 def new_conditionroom(form):
+    """Create a new conition in the room
+    """
     user_id = session["user_id"]
     game_id = form["game_id"]
 
@@ -224,6 +283,8 @@ def new_conditionroom(form):
         abort(401)
     
 def remove_conditionroom(form):
+    """Remove a room from the conditions list of rooms, which are required to be visited
+    """
     user_id = session["user_id"]
     game_id = form["game_id"]
 
@@ -244,6 +305,8 @@ def remove_conditionroom(form):
     
     
 def create_game(user_id):
+    """Create new blank game
+    """
     sql = "INSERT INTO games (owner_id) VALUES (:owner_id)"
     try:
         db.session.execute(sql, {"owner_id": user_id})
@@ -253,6 +316,9 @@ def create_game(user_id):
 
         
 def update_game(form):
+    """Update the basic information of the game
+    Rooms and conditions will not be updated
+    """
     user_id = session["user_id"]
     game_id = form["game_id"]
 
@@ -277,6 +343,15 @@ def update_game(form):
         abort(409)    
         
 def is_owner(game_id, user_id):
+    """Return True, if the give user is the owner of the given game
+    
+    Args:
+        game_id : Integer.
+        user_id : Integer.
+
+    Returns:
+        Boolean
+    """
     sql = "SELECT * FROM games WHERE id=:game_id AND owner_id=:user_id"
     result = db.session.execute(sql, {"game_id": game_id, "user_id": user_id})
     games = result.fetchall()

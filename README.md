@@ -6,9 +6,21 @@
 
 ## Installation
 
+### Donwload and start
+
+Clone the project from GitHub:
+```
+$ git clone https://github.com/jatufin/multicave
+```
+
+The session management requires, that an evironment variable is set for 16 byte secure key. The variable should contain the key in hexadecimal format:
+```
+SECURE_KEY
+```
+
 ### Initializing the database
 
-Database tables can be created by running following command in the project directory:
+PostgreSQL database should be up and running. Database tables can be created by running following command in the project directory:
 
 ```
 $ psql < schema.sql

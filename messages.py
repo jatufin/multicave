@@ -4,8 +4,11 @@ from db import db
 import messagefilter
 
 def all_messages():
-    ''' Get all messages from the messages table
-    '''
+    """ Get all messages from the messages table
+
+    Returns:
+        List of dictionary objects
+    """
     sql = "SELECT users.username, messages.posting_date, messages.body FROM messages INNER JOIN users on messages.user_id = users.id"
     result = db.session.execute(sql)
     messages = result.fetchall()
@@ -13,8 +16,11 @@ def all_messages():
     return messages
 
 def new_message(body):
-    ''' Add new message to the messages table
-    '''
+    """ Add new message to the messages table
+
+    Args:
+        body : String.
+    """
     user_id = session["user_id"]
 
     if not is_valid_message(body):
@@ -28,9 +34,15 @@ def new_message(body):
         abort(401)
 
 def is_valid_message(text):
-    ''' Validate the new message is not empty, and does not cotain
+    """ Validate the new message is not empty, and does not cotain
     banned words
-    '''
+
+    Args:
+        text : String
+
+    Returns:
+        Boolean
+    """
     if not text:
         return False
 

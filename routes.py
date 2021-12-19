@@ -12,6 +12,8 @@ from db import db
 
 @app.route("/")
 def index():
+    """Main page
+    """
     all_messages = messages.all_messages()
     
     public_games = gameplay.get_public_games()
@@ -32,6 +34,8 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def login():
+    """Receive and process the login form
+    """
     _abort_if_invalid_form(request.form)
 
     username = request.form["username"]
@@ -45,19 +49,25 @@ def login():
     
 @app.route("/logout")
 def logout():
+    """Execute logout rutines, which clear the session and
+    redirect to main page
+    """
     users.logout()
     return redirect("/")
 
 
 @app.route("/newuser")
 def newuser():
-    # _abort_if_not_logged_in(401)
+    """Open the form for creating a new user
+    """
 
     return render_template("newuser.html")
 
     
 @app.route("/createuser", methods=["POST"])
 def createuser():
+    """Receive and process the new user form
+    """
     _abort_if_invalid_form(request.form)
     
     username = request.form["username"]
@@ -76,12 +86,16 @@ def createuser():
 
 @app.route("/help")
 def help():
+    """Open the help page
+    """
     _abort_if_not_logged_in(403)
 
     return render_template("help.html")
 
 @app.route("/pwreset")
 def pwreset():
+    """Open the password reset page
+    """
     _abort_if_not_logged_in(403)
 
     return render_template("pwreset.html")
@@ -89,6 +103,8 @@ def pwreset():
 
 @app.route("/changepw", methods=["POST"])
 def changepw():
+    """Receive and process the password reset form
+    """
     _abort_if_not_logged_in(403)
     _abort_if_invalid_form(request.form)
 
@@ -112,7 +128,8 @@ def changepw():
     
 @app.route("/message", methods=["POST"])
 def message():
-    ''' Write new message to the message board '''
+    """Receive and process the password reset form
+    """
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
             
@@ -124,6 +141,8 @@ def message():
 
 @app.route("/playgame", methods=["POST"])
 def playgame():
+    """Receive and process the form opening a game for playing
+    """    
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
     
@@ -151,6 +170,8 @@ def playgame():
 
 @app.route("/adminusers")
 def adminusers():
+    """Open the page for user administration
+    """
     _abort_if_not_admin()
 
     user_list = users.userlist()
@@ -159,6 +180,8 @@ def adminusers():
 
 @app.route("/updateuser", methods=["POST"])
 def updateuser():
+    """Receive and process the form updating user account infromation
+    """
     _abort_if_not_admin()
     _abort_if_invalid_form(request.form)
 
@@ -168,6 +191,8 @@ def updateuser():
 
 @app.route("/bannedwords")
 def bannedwords():
+    """Open the page for message filter administration
+    """    
     _abort_if_not_admin()
 
     word_list = messagefilter.all_words()
@@ -176,6 +201,8 @@ def bannedwords():
 
 @app.route("/updatewords", methods=["POST"])
 def updatewords():
+    """Receive and process the form updating message filter
+    """    
     _abort_if_not_admin()
     _abort_if_invalid_form(request.form)
 
@@ -185,7 +212,8 @@ def updatewords():
 
 @app.route("/editgame")
 def edit():
-    ''' Edit your own adventure '''
+    """Open the page for game editing
+    """    
     _abort_if_not_logged_in(401)
     # _abort_if_invalid_form(request.form)
 
@@ -200,6 +228,8 @@ def edit():
 
 @app.route("/updategame", methods=["POST"])
 def updategame():
+    """Receive and process the form for editing and updating a game
+    """  
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
 
@@ -212,6 +242,8 @@ def updategame():
            
 @app.route("/newroom", methods=["POST"])
 def newroom():
+    """Receive and process the form for creating of a new room to a game
+    """    
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
 
@@ -224,6 +256,8 @@ def newroom():
 
 @app.route("/updateroom", methods=["POST"])
 def updateroom():
+    """Receive and process the form for updating a room to a game
+    """    
     _abort_if_not_logged_in(401)
 
     gameadmin.update_room(form=request.form)
@@ -235,6 +269,8 @@ def updateroom():
 
 @app.route("/deleteroom", methods=["POST"])
 def deleteroom():
+    """Receive and process the form for deleting a room from a game
+    """    
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
     
@@ -244,6 +280,9 @@ def deleteroom():
 
 @app.route("/newcondition", methods=["POST"])
 def newcondition():
+    """Receive and process the form for creating of a new condition
+    to a room in a game
+    """  
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
 
@@ -256,6 +295,8 @@ def newcondition():
 
 @app.route("/updatecondition", methods=["POST"])
 def updatecondition():
+    """Receive and process the form for updating of a condition in a game
+    """        
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
 
@@ -273,6 +314,8 @@ def updatecondition():
 
 @app.route("/newconditionroom", methods=["POST"])
 def newconditionroom():
+    """Receive and process the form for adding a room to a condition
+    """    
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
 
@@ -285,6 +328,8 @@ def newconditionroom():
 
 @app.route("/removeconditionroom", methods=["POST"])
 def removeconditionroom():
+    """Receive and process the form for removing a room from a condition
+    """        
     _abort_if_not_logged_in(401)
     _abort_if_invalid_form(request.form)
 
@@ -296,26 +341,48 @@ def removeconditionroom():
 
 
 def _logged_in():
+    """Check if a session is active
+    """
     if "logged_in" not in session:
         return False
     return True
 
 
 def _abort_if_not_logged_in(code):
+    """Abort request, if user is not logged in
+
+    Args:
+        code : Integer used as HTTP code.
+    """
     if not _logged_in():
         abort(code)
 
         
 def _abort_if_not_admin():
+    """Abort request, if logged in user has no administrative rights
+    """    
     if not _is_admin():
         abort(401)
 
         
 def _is_admin():
+    """Check if the current user has admin rights
+
+    Returns:
+        Boolean
+    """
     return "adm" in session and session["adm"]
 
 
 def _abort_if_invalid_form(form):
+    """Check if the sent form is valid for input
+
+    Args:
+        form : HTML form
+
+    Returns:
+        Boolean
+    """    
     if _logged_in():
         form_token = form["csrf_token"]
         session_token = session["csrf_token"]
@@ -327,6 +394,14 @@ def _abort_if_invalid_form(form):
 
         
 def _get_room_tag(form):
+    """Extract room tag from the form
+
+    Args:
+        form : HTML form
+
+    Returns:
+        String containing the tag, or empty string if tag can't be found.
+    """
     if "room_tag" in form:
         tag = form["room_tag"]
     else:
@@ -338,6 +413,12 @@ def _get_room_tag(form):
 def _fields_too_long(form):
     """ Goes over all fields in a form, and returns False if one exceeds
     the limit value
+
+    Args:
+        form : HTML form
+
+    Returns:
+        Boolean
     """
     limit = 1000  # Limit value for a length in any field
     for name, value in form.items():

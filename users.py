@@ -53,6 +53,11 @@ def createuser(username, password):
     set_password(username, password)
                              
 def userlist():
+    """Fetch a list of all users in the system
+
+    Returns:
+        A list of dictionary objects
+    """
     sql = "SELECT id, locked, adm, username FROM users ORDER BY id"
     result = db.session.execute(sql)
     users = result.fetchall()
@@ -60,6 +65,11 @@ def userlist():
     return users
 
 def updateuser(form):
+    """Update a user information
+
+    Args:
+        form : HTML forma containing all the required fields
+    """
     username = form["username"]
 
     if form.get("delete_selection"):
@@ -84,6 +94,12 @@ def updateuser(form):
         set_password(username, password)
 
 def set_password(username, password):
+    """Set the user's password
+    
+    Args:
+        username : String
+        password : String
+    """
     sql = "UPDATE users SET password=:password WHERE username=:username"
     hash_value = generate_password_hash(password)
     
@@ -94,6 +110,13 @@ def set_password(username, password):
         abort(409)
 
 def change_password(username, oldpassword, password):
+    """Change password providing old and new password
+    
+    Args:
+        username : String
+        oldpassword : String
+        password : String. The new password.
+    """    
     sql = "SELECT password, locked FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username": username})
     user = result.fetchone()
@@ -112,6 +135,13 @@ def change_password(username, oldpassword, password):
     return True
     
 def deleteuser(username):
+    """Delete the user from the system. Related infromation,
+    such as games and messages in the message board are
+    not deleted.
+
+    Args:
+        username : String
+    """    
     sql = "DELETE FROM users WHERE username=:username"
     try:
         db.session.execute(sql, {"username": username})

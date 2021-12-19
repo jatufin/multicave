@@ -2,6 +2,9 @@ from app import app
 from flask_sqlalchemy import SQLAlchemy
 from os import getenv
 
+"""This code initiallizes the database connection
+"""
+
 uri = getenv("DATABASE_URL")  # or other relevant config var
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
